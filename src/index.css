@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,700;1,900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Playfair Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-purdue-gold: #F0B800;
+  --color-cyber-black: #0D0D0D;
+  --color-cyber-gray: #111111;
+  --color-cyber-line: #333333;
+  --color-cyber-text: #E0E0E0;
+  --color-cyber-muted: #888888;
+  --color-cyber-accent: #F0B800;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cyber-black);
+  color: var(--color-cyber-text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-purdue-gold);
+  color: #000;
+}
+
+.bg-dot-pattern {
+  background: transparent;
+}
+
+.glitch-wrapper {
+  position: relative;
+}
+
+.glass-panel {
+  background: rgba(13, 13, 13, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-cyber-line);
+}
+
+.tech-border {
+  border: 1px solid var(--color-cyber-line);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cyber-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-cyber-line);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cyber-muted);
+}
