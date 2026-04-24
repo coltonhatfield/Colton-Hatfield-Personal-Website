@@ -56,7 +56,7 @@ export default function Contact() {
                 <Github className="w-5 h-5 mb-2 group-hover:scale-110 transition-transform" />
                 <span className="font-mono text-[9px] uppercase tracking-widest">Github</span>
               </a>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center p-4 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:text-[#F0B800] transition-colors text-[#666] group">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Colton_Hatfield_Resume.pdf" className="flex flex-col items-center justify-center p-4 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:text-[#F0B800] transition-colors text-[#666] group">
                 <FileText className="w-5 h-5 mb-2 group-hover:scale-110 transition-transform" />
                 <span className="font-mono text-[9px] uppercase tracking-widest">Resume</span>
               </a>
