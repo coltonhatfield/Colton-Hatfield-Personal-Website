@@ -5,9 +5,9 @@ const projects = [
   {
     title: 'Vitalis',
     year: '2024',
-    description: 'An AI-powered health application designed to assist users in tracking wellness goals, integrating intelligent data analysis for personalized insights.',
-    tags: ['AI/ML', 'HealthTech', 'Python', 'Web'],
-    link: '#',
+    description: 'An AI-powered health application designed to assist users in tracking wellness goals. Hosted privately on a Proxmox cluster and securely accessed via Tailscale.',
+    tags: ['AI/ML', 'HealthTech', 'Proxmox', 'Tailscale'],
+    link: '',
     github: 'https://github.com/coltonhatfield'
   },
   {
