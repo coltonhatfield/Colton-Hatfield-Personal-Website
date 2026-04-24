@@ -23,7 +23,7 @@ export default function App() {
       
       <footer className="border-t border-[#333] max-w-6xl w-full mx-auto px-6 sm:px-12 py-8 mt-24 text-center flex flex-col sm:flex-row justify-between items-center gap-4 text-[#666]">
         <p className="text-xs font-mono uppercase tracking-widest">© {new Date().getFullYear()} Colton Hatfield. Built for Web.</p>
-        <span className="text-[10px] font-mono text-[#666] uppercase">contact@coltonhatfield.com</span>
+        <span className="text-[10px] font-mono text-[#666] uppercase">coltonrhatfield@gmail.com</span>
       </footer>
     </div>
   );

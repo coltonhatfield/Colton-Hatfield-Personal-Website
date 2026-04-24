@@ -1,38 +1,40 @@
 import { motion } from 'motion/react';
 import { ExternalLink, Github } from 'lucide-react';
 
-const projects = [
+interface Project {
+  title: string;
+  year: string;
+  description: string;
+  tags: string[];
+  link?: string;
+  github?: string;
+}
+
+const projects: Project[] = [
   {
     title: 'Vitalis',
     year: '2024',
     description: 'An AI-powered health application designed to assist users in tracking wellness goals. Hosted privately on a Proxmox cluster and securely accessed via Tailscale.',
     tags: ['AI/ML', 'HealthTech', 'Proxmox', 'Tailscale'],
-    link: '',
-    github: 'https://github.com/coltonhatfield'
+    github: 'https://github.com/coltonhatfield/AI-Health-App/tree/main'
   },
   {
     title: 'Wazuh SIEM Deployment',
     year: '2025',
     description: 'Implemented and maintained a hybrid Wazuh SIEM infrastructure to actively monitor persistent environments and personal devices for threat detection and automated backups.',
-    tags: ['Wazuh', 'SIEM', 'Security', 'Monitoring'],
-    link: '#',
-    github: 'https://github.com/coltonhatfield'
+    tags: ['Wazuh', 'SIEM', 'Security', 'Monitoring']
   },
   {
     title: 'Self-Hosted Environment',
     year: '2024',
     description: 'Deployed and maintained various Dockerized applications including Immich, FreshRSS, and AudioBooth on personal infrastructure for robust self-hosted services.',
-    tags: ['Docker', 'Linux', 'Self-Hosting', 'Containers'],
-    link: '#',
-    github: 'https://github.com/coltonhatfield'
+    tags: ['Docker', 'Linux', 'Self-Hosting', 'Containers']
   },
   {
     title: 'Proxmox VM Cluster',
     year: '2024',
     description: 'Configured a powerful Proxmox virtualization environment hosting multiple VMs. Provisioned a dedicated gaming infrastructure including a custom Minecraft server.',
-    tags: ['Proxmox', 'VMs', 'Networking', 'Infrastructure'],
-    link: '#',
-    github: 'https://github.com/coltonhatfield'
+    tags: ['Proxmox', 'VMs', 'Networking', 'Infrastructure']
   }
 ];
 
