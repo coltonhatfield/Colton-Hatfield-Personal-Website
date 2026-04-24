@@ -3,28 +3,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion } from 'motion/react';
+import { motion, useScroll, useSpring } from 'motion/react';
 import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Navigation from './components/Navigation';
+import InteractiveBackground from './components/InteractiveBackground';
+import Footer from './components/Footer';
 
 export default function App() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   return (
-    <div className="min-h-screen bg-[#0D0D0D] selection:bg-[#F0B800] selection:text-black border-[8px] md:border-[16px] border-[#1A1A1A] m-2 md:m-4 flex flex-col font-sans mb-2 md:mb-4">
-      <Navigation />
-      <main className="max-w-6xl w-full mx-auto px-6 sm:px-12 pt-24 pb-12 md:py-20 flex-grow space-y-24 md:space-y-40">
-        <Hero />
-        <About />
-        <Projects />
-        <Contact />
-      </main>
-      
-      <footer className="border-t border-[#333] max-w-6xl w-full mx-auto px-6 sm:px-12 py-8 mt-24 text-center flex flex-col sm:flex-row justify-between items-center gap-4 text-[#666]">
-        <p className="text-xs font-mono uppercase tracking-widest">© {new Date().getFullYear()} Colton Hatfield. Built for Web.</p>
-        <span className="text-[10px] font-mono text-[#666] uppercase">coltonrhatfield@gmail.com</span>
-      </footer>
-    </div>
+    <>
+      <InteractiveBackground />
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 sm:h-2 bg-[#F0B800] origin-left z-[100]"
+        style={{ scaleX }}
+      />
+      <div className="min-h-screen bg-transparent selection:bg-[#F0B800] selection:text-black border-[8px] md:border-[16px] border-[#1A1A1A] m-2 md:m-4 flex flex-col font-sans mb-2 md:mb-4 relative">
+        <Navigation />
+        <main className="max-w-6xl w-full mx-auto px-6 sm:px-12 pt-24 pb-12 md:py-20 flex-grow space-y-24 md:space-y-40 relative z-10">
+          <Hero />
+          <About />
+          <Projects />
+          <Contact />
+        </main>
+        
+        <Footer />
+      </div>
+    </>
   );
 }

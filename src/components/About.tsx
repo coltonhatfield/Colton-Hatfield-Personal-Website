@@ -49,7 +49,7 @@ export default function About() {
                 <span className="text-white">Available</span>
               </div>
               <div>
-                <span className="block text-[#F0B800] mb-1">Loc</span>
+                <span className="block text-[#F0B800] mb-1">LOCATION</span>
                 <span className="text-white">San Clemente, CA</span>
               </div>
             </div>

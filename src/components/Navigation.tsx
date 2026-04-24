@@ -27,10 +27,18 @@ export default function Navigation() {
             <span>COLTON<span className="text-[#666] ml-1">v2.0</span></span>
           </div>
           
-          <div className="hidden md:flex gap-8 font-mono text-[10px] tracking-widest uppercase">
+          <div className="hidden md:flex items-center gap-8 font-mono text-[10px] tracking-widest uppercase">
             <a href="#about" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ About</a>
             <a href="#projects" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ Projects</a>
             <a href="#contact" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ Contact</a>
+            <a 
+              href="/resume.pdf" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purdue-gold border border-purdue-gold px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest hover:bg-purdue-gold hover:text-black transition-colors ml-4"
+            >
+              Resume
+            </a>
           </div>
 
           <button 
@@ -51,6 +59,15 @@ export default function Navigation() {
             <a href="#about" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ About</a>
             <a href="#projects" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ Projects</a>
             <a href="#contact" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block font-mono text-xs tracking-widest uppercase">/ Contact</a>
+            <a 
+              href="/resume.pdf" 
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsOpen(false)} 
+              className="text-purdue-gold hover:text-black hover:bg-purdue-gold transition-colors block border border-purdue-gold p-3 text-center font-mono text-xs tracking-widest uppercase mt-6"
+            >
+              Download Resume
+            </a>
           </motion.div>
         )}
       </div>
