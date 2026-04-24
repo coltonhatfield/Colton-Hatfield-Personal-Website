@@ -24,7 +24,7 @@ export default function Navigation() {
       <div className="max-w-6xl mx-auto px-6 sm:px-12 flex flex-col justify-center relative">
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-2 text-white font-sans font-black text-xs md:text-sm tracking-widest uppercase">
-            <span>COLTON<span className="text-[#666] ml-1">v2.0</span></span>
+            <span>COLTON HATFIELD</span>
           </div>
           
           <div className="hidden md:flex items-center gap-8 font-mono text-[10px] tracking-widest uppercase">

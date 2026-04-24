@@ -12,7 +12,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="font-mono text-[10px] uppercase tracking-[0.3em] text-purdue-gold mb-4"
           >
-            / / STUDENT PORTFOLIO V2.0
+            / / PORTFOLIO
           </motion.div>
           
           <motion.h1 
@@ -49,7 +49,7 @@ export default function Hero() {
         className="mt-8 border-t border-b border-cyber-line py-8"
       >
         <div className="border border-[#333] p-6 bg-[#111] relative group hover:border-[#F0B800] transition-colors">
-          <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-2">Systems Overview</h3>
+          <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-2">Professional Overview</h3>
           <p className="text-sm text-[#888] leading-relaxed">Architecting resilient networks, enforcing rigorous system hardening, and engineering secure infrastructure from the ground up.</p>
         </div>
       </motion.div>

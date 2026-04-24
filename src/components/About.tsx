@@ -37,7 +37,7 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="sticky top-32"
           >
-            <h2 className="text-3xl font-black uppercase italic mb-8 tracking-tighter">System Specs</h2>
+            <h2 className="text-3xl font-black uppercase italic mb-8 tracking-tighter">Skills & Background</h2>
             <div className="h-px w-full bg-[#333] mb-8"></div>
             <p className="font-mono text-sm text-[#888] leading-relaxed mb-6">
               I am a sophomore at Purdue University double majoring in Cybersecurity and INET (Information Technology). 

@@ -23,10 +23,10 @@ export default function Contact() {
           
           <div className="max-w-lg">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic text-white mb-6 tracking-tighter">
-              Establish Connection
+              Get in Touch
             </h2>
             <p className="font-sans text-sm text-[#888] leading-relaxed">
-              Currently seeking internship opportunities for Summer 2026. Whether it's a full-time role, freelance project, or just establishing communication protocols, my inbox is open.
+              Currently seeking internship opportunities for Summer 2026. Whether it's a full-time role, freelance project, or just looking to connect, my inbox is open.
             </p>
           </div>
 
