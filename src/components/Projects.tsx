@@ -13,28 +13,34 @@ interface Project {
 const projects: Project[] = [
   {
     title: 'Vitalis',
-    year: '2024',
+    year: '2026',
     description: 'An AI-powered health application designed to assist users in tracking wellness goals. Hosted privately on a Proxmox cluster and securely accessed via Tailscale.',
     tags: ['AI/ML', 'HealthTech', 'Proxmox', 'Tailscale'],
     github: 'https://github.com/coltonhatfield/AI-Health-App/tree/main'
   },
   {
     title: 'Wazuh SIEM Deployment',
-    year: '2025',
+    year: '2026',
     description: 'Implemented and maintained a hybrid Wazuh SIEM infrastructure to actively monitor persistent environments and personal devices for threat detection and automated backups.',
     tags: ['Wazuh', 'SIEM', 'Security', 'Monitoring']
   },
   {
     title: 'Self-Hosted Environment',
-    year: '2024',
+    year: '2025—2026',
     description: 'Deployed and maintained various Dockerized applications including Immich, FreshRSS, and AudioBooth on personal infrastructure for robust self-hosted services.',
     tags: ['Docker', 'Linux', 'Self-Hosting', 'Containers']
   },
   {
     title: 'Proxmox VM Cluster',
-    year: '2024',
+    year: '2025—2026',
     description: 'Configured a powerful Proxmox virtualization environment hosting multiple VMs. Provisioned a dedicated gaming infrastructure including a custom Minecraft server.',
     tags: ['Proxmox', 'VMs', 'Networking', 'Infrastructure']
+  },
+  {
+    title: 'Enterprise Active Directory Environment',
+    year: '2025',
+    description: 'Designed and implemented an enterprise Active Directory environment utilizing Windows Server and VMware Hypervisor for CNIT 242.',
+    tags: ['Active Directory', 'Windows Server', 'VMware', 'Networking']
   }
 ];
 
@@ -49,7 +55,7 @@ export default function Projects() {
       >
         <h2 className="text-3xl font-black uppercase italic tracking-tighter">Featured Projects</h2>
         <span className="h-px bg-[#333] flex-grow mx-4 mb-2 hidden md:block"></span>
-        <span className="font-mono text-[10px] text-[#666] uppercase tracking-widest">[01—04]</span>
+        <span className="font-mono text-[10px] text-[#666] uppercase tracking-widest">[01—05]</span>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-[#333] pt-8">
