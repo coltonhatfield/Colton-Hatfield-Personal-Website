@@ -31,16 +31,15 @@ export default function Contact() {
           </div>
 
           <div className="flex flex-col gap-4 w-full md:w-auto">
-            <div className="flex w-full gap-2 overflow-hidden">
-              <a href="mailto:coltonrhatfield@gmail.com" className="group flex-1 flex items-center justify-between gap-4 bg-[#0D0D0D] px-4 md:px-6 py-4 border border-[#333] hover:border-[#F0B800] transition-all duration-300 overflow-hidden" title="Send Mail">
-                <div className="flex items-center gap-4 overflow-hidden">
-                  <Mail className="w-5 h-5 shrink-0 text-[#F0B800]" />
-                  <span className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white truncate block">coltonrhatfield@gmail.com</span>
-                </div>
+            <div className="flex w-full items-stretch border border-[#333] bg-[#0D0D0D] hover:border-[#F0B800] transition-colors group">
+              <a href="mailto:coltonrhatfield@gmail.com" className="flex-1 flex items-center gap-4 px-4 md:px-6 py-4 overflow-hidden hover:bg-[#111] transition-colors" title="Send Mail">
+                <Mail className="w-5 h-5 shrink-0 text-[#F0B800]" />
+                <span className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-[#E0E0E0] group-hover:text-white truncate block">coltonrhatfield@gmail.com</span>
               </a>
+              <div className="w-[1px] bg-[#333] group-hover:bg-[#F0B800] transition-colors my-2"></div>
               <button 
                 onClick={handleCopy}
-                className="flex items-center justify-center px-4 md:px-5 py-4 shrink-0 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:text-[#F0B800] transition-colors text-[#666]"
+                className="flex items-center justify-center px-4 md:px-6 shrink-0 hover:bg-[#111] hover:text-[#F0B800] transition-colors text-[#666]"
                 title="Copy Email"
               >
                 {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
@@ -48,17 +47,20 @@ export default function Contact() {
             </div>
 
             <div className="grid grid-cols-3 gap-4">
-              <a href="https://www.linkedin.com/in/colton-hatfield-299072332/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center p-4 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:text-[#F0B800] transition-colors text-[#666] group">
-                <Linkedin className="w-5 h-5 mb-2 group-hover:scale-110 transition-transform" />
-                <span className="font-mono text-[9px] uppercase tracking-widest">LinkedIn</span>
+              <a href="https://www.linkedin.com/in/colton-hatfield-299072332/" target="_blank" rel="noopener noreferrer" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#666] group h-[100px]">
+                <Linkedin className="w-6 h-6 mb-2 text-white group-hover:text-[#F0B800] group-hover:-translate-y-1 transition-all" />
+                <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-white group-hover:text-[#F0B800] transition-colors">LinkedIn</span>
+                <span className="font-mono text-[8px] uppercase tracking-widest mt-1 transition-colors flex items-center gap-1 text-white group-hover:text-[#F0B800] absolute bottom-3">Visit ↗</span>
               </a>
-              <a href="https://github.com/coltonhatfield" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center p-4 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:text-[#F0B800] transition-colors text-[#666] group">
-                <Github className="w-5 h-5 mb-2 group-hover:scale-110 transition-transform" />
-                <span className="font-mono text-[9px] uppercase tracking-widest">Github</span>
+              <a href="https://github.com/coltonhatfield" target="_blank" rel="noopener noreferrer" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#666] group h-[100px]">
+                <Github className="w-6 h-6 mb-2 text-white group-hover:text-[#F0B800] group-hover:-translate-y-1 transition-all" />
+                <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-white group-hover:text-[#F0B800] transition-colors">Github</span>
+                <span className="font-mono text-[8px] uppercase tracking-widest mt-1 transition-colors flex items-center gap-1 text-white group-hover:text-[#F0B800] absolute bottom-3">Visit ↗</span>
               </a>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Colton_Hatfield_Resume.pdf" className="flex flex-col items-center justify-center p-4 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:text-[#F0B800] transition-colors text-[#666] group">
-                <FileText className="w-5 h-5 mb-2 group-hover:scale-110 transition-transform" />
-                <span className="font-mono text-[9px] uppercase tracking-widest">Resume</span>
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Colton_Hatfield_Resume.pdf" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#666] group h-[100px]">
+                <FileText className="w-6 h-6 mb-2 text-white group-hover:text-[#F0B800] group-hover:-translate-y-1 transition-all" />
+                <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-white group-hover:text-[#F0B800] transition-colors">Resume</span>
+                <span className="font-mono text-[8px] uppercase tracking-widest mt-1 transition-colors flex items-center gap-1 text-white group-hover:text-[#F0B800] absolute bottom-3">View ↗</span>
               </a>
             </div>
           </div>

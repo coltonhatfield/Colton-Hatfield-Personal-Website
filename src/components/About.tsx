@@ -40,7 +40,7 @@ export default function About() {
             <h2 className="text-3xl font-black uppercase italic mb-8 tracking-tighter">Skills & Background</h2>
             <div className="h-px w-full bg-[#333] mb-8"></div>
             <p className="font-mono text-sm text-[#888] leading-relaxed mb-6">
-              I am a sophomore at Purdue University double majoring in Cybersecurity and INET (Information Technology). 
+              Currently a sophomore in cybersecurity at Purdue University, double majoring in INET (Information Technology). 
               Passionate about offensive operations, secure architecture, and solving complex infrastructure problems.
             </p>
             <div className="font-mono text-xs uppercase tracking-widest text-[#E0E0E0] mt-12 grid grid-cols-2 gap-4">

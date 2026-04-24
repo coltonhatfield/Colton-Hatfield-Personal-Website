@@ -27,27 +27,30 @@ export default function Navigation() {
             <span>COLTON HATFIELD</span>
           </div>
           
-          <div className="hidden md:flex items-center gap-8 font-mono text-[10px] tracking-widest uppercase">
+          <div className="hidden md:flex items-center gap-8 font-mono text-[10px] tracking-widest uppercase ml-auto mr-8">
             <a href="#about" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ About</a>
             <a href="#projects" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ Projects</a>
             <a href="#contact" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ Contact</a>
+          </div>
+
+          <div className="flex items-center gap-3">
             <a 
               href="/resume.pdf" 
               target="_blank"
               rel="noopener noreferrer"
               download="Colton_Hatfield_Resume.pdf"
-              className="text-purdue-gold border border-purdue-gold px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest hover:bg-purdue-gold hover:text-black transition-colors ml-4"
+              className="text-purdue-gold border border-purdue-gold px-3 md:px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest hover:bg-purdue-gold hover:text-black transition-colors"
             >
               Resume
             </a>
-          </div>
 
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-cyber-muted hover:text-purdue-gold transition-colors border border-cyber-line px-3 py-1 bg-[#111] font-mono text-[10px] uppercase tracking-widest"
-          >
-            {isOpen ? 'CLOSE' : 'MENU'}
-          </button>
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden text-cyber-muted hover:text-purdue-gold transition-colors border border-[#333] px-3 py-1 bg-[#111] font-mono text-[10px] uppercase tracking-widest flex shrink-0"
+            >
+              {isOpen ? 'CLOSE' : 'MENU'}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
@@ -60,16 +63,6 @@ export default function Navigation() {
             <a href="#about" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ About</a>
             <a href="#projects" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ Projects</a>
             <a href="#contact" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block font-mono text-xs tracking-widest uppercase">/ Contact</a>
-            <a 
-              href="/resume.pdf" 
-              target="_blank"
-              rel="noopener noreferrer"
-              download="Colton_Hatfield_Resume.pdf"
-              onClick={() => setIsOpen(false)} 
-              className="text-purdue-gold hover:text-black hover:bg-purdue-gold transition-colors block border border-purdue-gold p-3 text-center font-mono text-xs tracking-widest uppercase mt-6"
-            >
-              Download Resume
-            </a>
           </motion.div>
         )}
       </div>
