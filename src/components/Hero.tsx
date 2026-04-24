@@ -38,7 +38,7 @@ export default function Hero() {
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#666]">Major</p>
           <p className="text-xl md:text-2xl font-bold italic font-serif mt-1">Cybersecurity & INET</p>
-          <p className="text-sm text-purdue-gold tracking-tighter uppercase font-bold mt-1">Purdue University '26</p>
+          <p className="text-sm text-purdue-gold tracking-tighter uppercase font-bold mt-1">Purdue University '28</p>
         </motion.div>
       </div>
 
@@ -50,7 +50,7 @@ export default function Hero() {
       >
         <div className="border border-[#333] p-6 bg-[#111] relative group hover:border-[#F0B800] transition-colors">
           <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-2">Systems Overview</h3>
-          <p className="text-sm text-[#888] leading-relaxed">Securing next-generation infrastructure, automating threat detection, and engineering robust networks from the ground up.</p>
+          <p className="text-sm text-[#888] leading-relaxed">Architecting resilient networks, enforcing rigorous system hardening, and engineering secure infrastructure from the ground up.</p>
         </div>
       </motion.div>
 
