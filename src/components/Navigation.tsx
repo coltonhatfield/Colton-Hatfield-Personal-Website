@@ -35,6 +35,7 @@ export default function Navigation() {
               href="/resume.pdf" 
               target="_blank"
               rel="noopener noreferrer"
+              download="Colton_Hatfield_Resume.pdf"
               className="text-purdue-gold border border-purdue-gold px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest hover:bg-purdue-gold hover:text-black transition-colors ml-4"
             >
               Resume
@@ -63,6 +64,7 @@ export default function Navigation() {
               href="/resume.pdf" 
               target="_blank"
               rel="noopener noreferrer"
+              download="Colton_Hatfield_Resume.pdf"
               onClick={() => setIsOpen(false)} 
               className="text-purdue-gold hover:text-black hover:bg-purdue-gold transition-colors block border border-purdue-gold p-3 text-center font-mono text-xs tracking-widest uppercase mt-6"
             >
