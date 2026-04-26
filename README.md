@@ -49,6 +49,49 @@ If you are connecting your GitHub repository directly to Cloudflare Pages via th
 
 *(Note: If you previously saw a default "Hello World" page, it means Cloudflare deployed a generic Worker script instead of building this React project. Deleting that Worker and creating a new "Pages" project from your GitHub repo using the `dist` folder will fix it!)*
 
+## 🏛️ Architecture
+
+### Logical Architecture
+The application follows a component-based React architecture, centrally managed by the main `App` layout. It uses Framer Motion for interactive transitions within individual UI components.
+
+```mermaid
+flowchart TD
+    App[App Component] --> Nav[Navigation]
+    App --> BG[Interactive Background]
+    App --> MainContent[(Main Scrollable Area)]
+    
+    MainContent --> Hero[Hero Section]
+    MainContent --> About[About Section]
+    MainContent --> Projects[Projects Section]
+    MainContent --> Contact[Contact Section]
+    
+    App --> Footer[Footer]
+    
+    style App fill:#2563eb,stroke:#1d4ed8,stroke-width:2px,color:#fff
+    style MainContent fill:#475569,stroke:#334155,color:#fff
+```
+
+### Physical Architecture
+The site is built as a static Single Page Application (SPA) using Vite and is globally distributed via Cloudflare's Edge Network (Cloudflare Pages).
+
+```mermaid
+flowchart LR
+    Dev((Developer)) -->|Git Push| GitHub[(GitHub Repository)]
+    GitHub -->|Webhook Trigger| CFBuild[Cloudflare Pages Build]
+    
+    subgraph Cloudflare Infrastructure
+        CFBuild -->|npm run build| StaticDist[Static Assets: JS, CSS, HTML]
+        StaticDist -->|Deploy| CFEdge((Cloudflare Edge Nodes))
+    end
+    
+    CFEdge -->|HTTPS/CDN| Desktop((Desktop User Browser))
+    CFEdge -->|HTTPS/CDN| Mobile((Mobile User Browser))
+    
+    style CFBuild fill:#f38020,stroke:#d97014,color:#fff
+    style CFEdge fill:#f38020,stroke:#d97014,color:#fff
+    style StaticDist fill:#10b981,stroke:#047857,color:#fff
+```
+
 ## 📂 Project Structure
 
 * `/src/components/` - React components (Hero, About, Projects, Contact, Navigation)
