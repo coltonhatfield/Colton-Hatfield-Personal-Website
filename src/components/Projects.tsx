@@ -19,22 +19,30 @@ const projects: Project[] = [
     github: 'https://github.com/coltonhatfield/AI-Health-App/tree/main'
   },
   {
+    title: 'Enterprise Cyber Range Infrastructure',
+    year: '2026',
+    description: 'Developed an Infrastructure as Code (IaC) cyber range on a bare-metal Proxmox hypervisor. Automated provisioning of target VMs, an OPNsense perimeter firewall, and secure Tailscale VPN tunneling using Terraform and Cloud-Init.',
+    tags: ['Terraform', 'Proxmox', 'OPNsense', 'Tailscale'],
+    github: 'https://github.com/coltonhatfield/proxmox-cyber-range-iac'
+  },
+  {
+    title: 'Personal Portfolio Website',
+    year: '2026',
+    description: 'A modern, responsive portfolio website built with React, Vite, and Tailwind CSS. Features fully interactive components, fluid Framer Motion animations, and a Brutalist-inspired aesthetic to showcase projects and experience.',
+    tags: ['React', 'Tailwind', 'Motion', 'TypeScript'],
+    github: 'https://github.com/coltonhatfield/Colton-Hatfield-Personal-Website'
+  },
+  {
     title: 'Wazuh SIEM Deployment',
     year: '2026',
     description: 'Implemented and maintained a hybrid Wazuh SIEM infrastructure to actively monitor persistent environments and personal devices for threat detection and automated backups.',
     tags: ['Wazuh', 'SIEM', 'Security', 'Monitoring']
   },
   {
-    title: 'Self-Hosted Environment',
+    title: 'Self-Hosted Homelab Infrastructure',
     year: '2025—2026',
-    description: 'Deployed and maintained various Dockerized applications including Immich, FreshRSS, and AudioBooth on personal infrastructure for robust self-hosted services.',
-    tags: ['Docker', 'Linux', 'Self-Hosting', 'Containers']
-  },
-  {
-    title: 'Proxmox VM Cluster',
-    year: '2025—2026',
-    description: 'Configured a powerful Proxmox virtualization environment hosting multiple VMs. Provisioned a dedicated gaming infrastructure including a custom Minecraft server.',
-    tags: ['Proxmox', 'VMs', 'Networking', 'Infrastructure']
+    description: 'Configured a robust Proxmox virtualization environment hosting multiple VMs and a fleet of Dockerized applications (Immich, FreshRSS, AudioBooth). Features custom deployment of personal services alongside dedicated gaming infrastructure.',
+    tags: ['Proxmox', 'Docker', 'Self-Hosting', 'Linux']
   },
   {
     title: 'Enterprise Active Directory Environment',
@@ -55,7 +63,7 @@ export default function Projects() {
       >
         <h2 className="text-3xl font-black uppercase italic tracking-tighter">Featured Projects</h2>
         <span className="h-px bg-[#333] flex-grow mx-4 mb-2 hidden md:block"></span>
-        <span className="font-mono text-[10px] text-[#666] uppercase tracking-widest">[01—05]</span>
+        <span className="font-mono text-[10px] text-[#666] uppercase tracking-widest">[01—{projects.length < 10 ? '0' : ''}{projects.length}]</span>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-[#333] pt-8">
@@ -66,7 +74,7 @@ export default function Projects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
-            className={`group relative border border-[#333] p-6 bg-[#111] hover:border-[#F0B800] transition-colors flex flex-col justify-between ${idx === 2 ? 'md:col-span-2' : ''}`}
+            className={`group relative border border-[#333] p-6 bg-[#111] hover:border-[#F0B800] transition-colors flex flex-col justify-between`}
           >
             <div>
               <span className="absolute top-4 right-4 font-mono text-[10px] text-[#666] tracking-widest">[{project.year}]</span>
@@ -88,12 +96,14 @@ export default function Projects() {
               </div>
               <div className="flex gap-4">
                 {project.github && (
-                  <a href={project.github} className="text-[#666] hover:text-white transition-colors" aria-label="GitHub Repository">
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-mono tracking-widest uppercase text-[#666] hover:text-white transition-colors" aria-label="GitHub Repository">
                     <Github className="w-4 h-4" />
+                    <span>View on GitHub</span>
                   </a>
                 )}
                 {project.link && (
-                  <a href={project.link} className="text-[#666] hover:text-[#F0B800] transition-colors" aria-label="Live Project">
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-mono tracking-widest uppercase text-[#666] hover:text-[#F0B800] transition-colors" aria-label="Live Project">
+                    <span>Live Deployment</span>
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
