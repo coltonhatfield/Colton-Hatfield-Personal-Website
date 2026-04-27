@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Terminal } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -24,13 +25,13 @@ export default function Navigation() {
       <div className="max-w-6xl mx-auto px-6 sm:px-12 flex flex-col justify-center relative">
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-2 text-white font-sans font-black text-xs md:text-sm tracking-widest uppercase">
-            <span>COLTON HATFIELD</span>
+            <Link to="/">COLTON HATFIELD</Link>
           </div>
           
           <div className="hidden md:flex items-center gap-8 font-mono text-[10px] tracking-widest uppercase ml-auto mr-8">
-            <a href="#about" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ About</a>
-            <a href="#projects" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ Projects</a>
-            <a href="#contact" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ Contact</a>
+            <a href="/#about" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ About</a>
+            <a href="/#projects" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ Projects</a>
+            <a href="/#contact" className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-transparent hover:border-purdue-gold pb-1">/ Contact</a>
           </div>
 
           <div className="flex items-center gap-3">
@@ -60,9 +61,9 @@ export default function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             className="absolute top-full left-0 right-0 mt-4 md:hidden flex flex-col bg-[#0D0D0D]/95 backdrop-blur-lg border border-[#333] p-6 shadow-2xl z-50"
           >
-            <a href="#about" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ About</a>
-            <a href="#projects" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ Projects</a>
-            <a href="#contact" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block font-mono text-xs tracking-widest uppercase">/ Contact</a>
+            <a href="/#about" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ About</a>
+            <a href="/#projects" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ Projects</a>
+            <a href="/#contact" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block font-mono text-xs tracking-widest uppercase">/ Contact</a>
           </motion.div>
         )}
       </div>
