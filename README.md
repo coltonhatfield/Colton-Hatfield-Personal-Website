@@ -56,19 +56,27 @@ The application follows a component-based React architecture, centrally managed 
 
 ```mermaid
 flowchart TD
-    App[App Component] --> Nav[Navigation]
+    App[App Component / Router] --> Nav[Navigation]
     App --> BG[Interactive Background]
-    App --> MainContent[(Main Scrollable Area)]
+    App --> Scroll[ScrollProgress Bar]
+    App --> MainContent[(Routes Container)]
     
-    MainContent --> Hero[Hero Section]
-    MainContent --> About[About Section]
-    MainContent --> Projects[Projects Section]
-    MainContent --> Contact[Contact Section]
+    MainContent --> Home[Home Route '/']
+    MainContent --> ProjDetail[Project Detail Route '/project/:id']
+    
+    Home --> Hero[Hero Section]
+    Home --> About[About Section]
+    Home --> Projects[Projects Section]
+    Home --> Contact[Contact Section]
+    
+    ProjDetail --> ProjectData[(Project Data)]
     
     App --> Footer[Footer]
     
     style App fill:#2563eb,stroke:#1d4ed8,stroke-width:2px,color:#fff
     style MainContent fill:#475569,stroke:#334155,color:#fff
+    style Home fill:#0f172a,stroke:#334155,color:#fff
+    style ProjDetail fill:#0f172a,stroke:#334155,color:#fff
 ```
 
 ### Physical Architecture
