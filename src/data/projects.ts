@@ -11,13 +11,16 @@ export interface Project {
 
 const honeypotMd = `
 ### Overview
-To gain hands-on experience with real-world threat actors and attack patterns, I deployed a public-facing honeypot infrastructure on Oracle Cloud. The system was designed to mimic a vulnerable IoT device or Linux server, intentionally exposing SSH and Telnet services to the open internet.
+To gain hands-on experience with real-world threat actors and attack patterns, I deployed a public-facing honeypot infrastructure on Oracle Cloud. The system was designed to mimic a vulnerable IoT device or Linux server, intentionally exposing SSH and Telnet services to the open internet and feeding telemetry directly to a Wazuh SIEM pipeline.
 
-### What I Did
-I containerized a Cowrie honeypot and forwarded public traffic into the trap. To make sense of the noisy, raw logs, I engineered a SIEM pipeline using Wazuh and OpenSearch. I wrote custom decoders and rules to extract crucial indicators of compromise (IOCs), such as botnet IP addresses, used credentials, SSH fingerprints, and downloaded malware payloads.
+### Threat Intelligence & SIEM Pipeline
+I containerized a Cowrie honeypot and forwarded public traffic into the trap. To make sense of the noisy, raw logs, I engineered a SIEM pipeline using Wazuh and OpenSearch. I wrote custom decoders and rules to extract crucial indicators of compromise (IOCs), successfully capturing an automated attack sequence from the "RedTail" botnet (Trojan.Alevaul) within a 12-hour window. This botnet successfully performed credential stuffing, manipulated authorized keys for persistence, and delivered architecture-aware payloads—all within 21.3 seconds of initial breach.
 
-### Key Findings & Skills
-Over a 12-hour capture window, the honeypot intercepted automated botnet attacks, including a textbook compromise by the "RedTail" crypto-mining botnet. It captured the exact commands used for persistence and evasion. This project demonstrates practical skills in **Threat Intelligence**, **SIEM Engineering (Wazuh)**, **Malware Analysis**, and **Linux System Administration**. It bridged the gap between theoretical security concepts and actual, in-the-wild cyber attacks.
+### Dynamic Malware Analysis & Containment
+To safely analyze the captured payloads, I engineered an isolated malware analysis sandbox using a REMnux VM on a Proxmox hypervisor. I implemented strict egress filtering via an OPNsense firewall to neuter the worm's outbound attacks while allowing it to pull dependencies. By dynamically detonating the malware, I used system call tracing (\`strace\`) and network packet capture (Wireshark) to uncover its true nature as a sophisticated, multi-stage Python worm. Finally, I established an air-gapped exfiltration protocol using virtual hardware to safely retrieve telemetry for reporting.
+
+### Key Skills Demonstrated
+This project demonstrates practical skills in **Threat Intelligence**, **SIEM Engineering (Wazuh)**, **Dynamic Malware Analysis**, **Network Containment**, and **Linux System Administration**. It bridged the gap between theoretical security concepts and actual, in-the-wild cyber attacks.
 `;
 
 const vitalisMd = `
@@ -76,9 +79,9 @@ export const projects: Project[] = [
     id: 'public-honeypot',
     title: 'Public Honeypot & Threat Analysis',
     year: '2026',
-    description: 'Set up a public honeypot infrastructure exposing SSH/Telnet to collect, analyze, and report on real-world threat data using a Wazuh SIEM pipeline, tracking botnets and identifying emerging attack patterns.',
+    description: 'Deployed a public honeypot and Wazuh SIEM pipeline to capture real-world attacks. Engineered a Proxmox/REMnux sandbox to dynamically analyze and contain the sophisticated botnet payloads.',
     longDescription: honeypotMd,
-    tags: ['Security', 'Honeypot', 'Wazuh', 'SIEM', 'Threat Detection'],
+    tags: ['Security', 'Honeypot', 'Wazuh', 'Malware Analysis', 'Threat Intelligence'],
     github: 'https://github.com/coltonhatfield/oracle-wazuh-honeypot'
   },
   {
