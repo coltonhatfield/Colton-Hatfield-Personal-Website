@@ -1,8 +1,8 @@
 # Colton Hatfield - Personal Portfolio V2.0
 
-A personal portfolio website showcasing my projects, skills, and experience in Cybersecurity and Information Network Engineering Technology (INET) at Purdue University.
+A personal portfolio website showcasing my projects, skills, and experience in Cybersecurity and Computing Infrastructure & Network Engineering Technology at Purdue University.
 
-Designed with a sleek, editorial-meets-terminal aesthetic, highlighting an active homelab, network engineering skills, and offensive/defensive security operations.
+Designed with a sleek, editorial-meets-terminal aesthetic, highlighting an active homelab, enterprise network engineering skills, system administration, and security best practices.
 
 ## 🚀 Live Site
 [coltonhatfield.com](https://coltonhatfield.com)
