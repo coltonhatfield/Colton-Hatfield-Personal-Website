@@ -50,7 +50,7 @@ export default function Hero() {
       >
         <div className="border border-[#333] p-6 bg-[#111] relative group hover:border-[#F0B800] transition-colors">
           <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-2">Professional Overview</h3>
-          <p className="text-sm text-[#888] leading-relaxed">Architecting resilient networks, enforcing rigorous system hardening, and engineering secure infrastructure from the ground up.</p>
+          <p className="text-sm text-[#888] leading-relaxed">Motivated cybersecurity and network engineering student with hands-on experience in networking, security, and enterprise-grade server environments. Skilled in configuring servers, applying security best practices, and troubleshooting systems.</p>
         </div>
       </motion.div>
 

@@ -5,22 +5,22 @@ const skills = [
   {
     category: 'Security Operations',
     icon: <Shield className="w-5 h-5 text-cyber-accent" />,
-    items: ['Digital Forensics', 'Incident Response', 'Wazuh SIEM', 'Vulnerability Analysis']
+    items: ['SIEM / Wazuh Management', 'Threat & Vulnerability Defense', 'Security Best Practices', 'Secure Coding & Git']
   },
   {
     category: 'Infrastructure',
     icon: <Network className="w-5 h-5 text-purdue-gold" />,
-    items: ['Proxmox & Docker', 'Oracle Cloud', 'Linux & Windows Server', 'Active Directory']
+    items: ['Cisco Enterprise Networks', 'Oracle Cloud Networking', 'Windows & Linux Servers', 'Docker Containerization']
   },
   {
     category: 'Development',
     icon: <Monitor className="w-5 h-5 text-cyber-text" />,
-    items: ['Java (3+ Yrs)', 'Python', 'C / C++', 'Bash Scripting']
+    items: ['Java (3+ Years)', 'Python & C (1 Year)', 'SQL & Bash Scripting', 'Production Code Refactoring']
   },
   {
-    category: 'Systems & Networking',
+    category: 'Systems & Architecture',
     icon: <Database className="w-5 h-5 text-zinc-400" />,
-    items: ['Network Administration', 'System Architecture', 'SQL', 'Self-Hosted Services']
+    items: ['System Administration', 'Enterprise Deployments', 'Project Documentation', 'Home Lab Infrastructure']
   }
 ];
 
@@ -39,9 +39,11 @@ export default function About() {
           >
             <h2 className="text-3xl font-black uppercase italic mb-8 tracking-tighter">Skills & Background</h2>
             <div className="h-px w-full bg-[#333] mb-8"></div>
+            <p className="font-mono text-sm text-[#888] leading-relaxed mb-4">
+              Currently a sophomore at Purdue University studying Cybersecurity and Computing Infrastructure & Network Engineering Technology (GPA 3.57). 
+            </p>
             <p className="font-mono text-sm text-[#888] leading-relaxed mb-6">
-              Currently a sophomore in cybersecurity at Purdue University, double majoring in Computing Infrastructure and Network Engineering Technology. 
-              Passionate about offensive operations, secure architecture, and solving complex infrastructure problems.
+              Experienced in configuring enterprise servers, applying security best practices, and troubleshooting networking systems.
             </p>
             <div className="font-mono text-xs uppercase tracking-widest text-[#E0E0E0] mt-12 grid grid-cols-2 gap-4">
               <div>
