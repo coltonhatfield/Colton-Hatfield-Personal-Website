@@ -19,6 +19,11 @@ I containerized a Cowrie honeypot and forwarded public traffic into the trap. To
 ### Dynamic Malware Analysis & Containment
 To safely analyze the captured payloads, I engineered an isolated malware analysis sandbox using a REMnux VM on a Proxmox hypervisor. I implemented strict egress filtering via an OPNsense firewall to neuter the worm's outbound attacks while allowing it to pull dependencies. By dynamically detonating the malware, I used system call tracing (\`strace\`) and network packet capture (Wireshark) to uncover its true nature as a sophisticated, multi-stage Python worm. Finally, I established an air-gapped exfiltration protocol using virtual hardware to safely retrieve telemetry for reporting.
 
+### Bendi.py Analysis Report
+During this project, I completed a detailed static and dynamic analysis of the **Bendi.py** malware dropped by the attackers, dissecting its Dropper mechanisms, C2 Infrastructure, and Defense Evasion techniques.
+
+👉 **[View the Bendi.py Malware Analysis Report here](/malware-analysis/bendi)**
+
 ### Key Skills Demonstrated
 This project demonstrates practical skills in **Threat Intelligence**, **SIEM Engineering (Wazuh)**, **Dynamic Malware Analysis**, **Network Containment**, and **Linux System Administration**. It bridged the gap between theoretical security concepts and actual, in-the-wild cyber attacks.
 `;
@@ -58,6 +63,15 @@ Beyond just presenting information, the portfolio itself is a testament to my **
 
 export const projects: Project[] = [
   {
+    id: 'public-honeypot',
+    title: 'Public Honeypot & Threat Analysis',
+    year: '2026',
+    description: 'Deployed a public honeypot and Wazuh SIEM pipeline to capture real-world attacks. Engineered a Proxmox/REMnux sandbox to dynamically analyze and contain the sophisticated botnet payloads.',
+    longDescription: honeypotMd,
+    tags: ['Security', 'Honeypot', 'Wazuh', 'Malware Analysis', 'Threat Intelligence'],
+    github: 'https://github.com/coltonhatfield/oracle-wazuh-honeypot'
+  },
+  {
     id: 'vitalis',
     title: 'Vitalis v2.1',
     year: '2026',
@@ -74,15 +88,6 @@ export const projects: Project[] = [
     longDescription: cyberRangeMd,
     tags: ['Terraform', 'Proxmox', 'OPNsense', 'Tailscale'],
     github: 'https://github.com/coltonhatfield/proxmox-cyber-range-iac'
-  },
-  {
-    id: 'public-honeypot',
-    title: 'Public Honeypot & Threat Analysis',
-    year: '2026',
-    description: 'Deployed a public honeypot and Wazuh SIEM pipeline to capture real-world attacks. Engineered a Proxmox/REMnux sandbox to dynamically analyze and contain the sophisticated botnet payloads.',
-    longDescription: honeypotMd,
-    tags: ['Security', 'Honeypot', 'Wazuh', 'Malware Analysis', 'Threat Intelligence'],
-    github: 'https://github.com/coltonhatfield/oracle-wazuh-honeypot'
   },
   {
     id: 'personal-portfolio',

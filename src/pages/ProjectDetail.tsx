@@ -58,7 +58,18 @@ export default function ProjectDetail() {
         
         {project.longDescription && (
           <div className="prose prose-invert prose-p:text-[#A0A0A0] prose-p:leading-relaxed prose-headings:text-white prose-a:text-[#F0B800] prose-a:no-underline hover:prose-a:underline prose-strong:text-white prose-code:text-[#F0B800] max-w-none font-sans">
-            <Markdown>{project.longDescription}</Markdown>
+            <Markdown
+              components={{
+                a: ({ node, ...props }) => {
+                  if (props.href?.startsWith('/')) {
+                    return <Link to={props.href} {...(props as any)} />;
+                  }
+                  return <a target="_blank" rel="noopener noreferrer" {...props} />;
+                }
+              }}
+            >
+              {project.longDescription}
+            </Markdown>
           </div>
         )}
 

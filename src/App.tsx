@@ -13,6 +13,7 @@ import Navigation from './components/Navigation';
 import InteractiveBackground from './components/InteractiveBackground';
 import Footer from './components/Footer';
 import ProjectDetail from './pages/ProjectDetail';
+import MalwareAnalysis from './pages/MalwareAnalysis';
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -52,6 +53,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
+            <Route path="/malware-analysis/bendi" element={<MalwareAnalysis />} />
           </Routes>
         </main>
         <Footer />
