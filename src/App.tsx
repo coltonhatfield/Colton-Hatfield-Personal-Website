@@ -7,13 +7,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import { motion, useScroll, useSpring } from 'motion/react';
 import Hero from './components/Hero';
-import About from './components/About';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
 import Navigation from './components/Navigation';
 import InteractiveBackground from './components/InteractiveBackground';
 import Footer from './components/Footer';
 
+const About = React.lazy(() => import('./components/About'));
+const Projects = React.lazy(() => import('./components/Projects'));
+const Contact = React.lazy(() => import('./components/Contact'));
 const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail'));
 const MalwareAnalysis = React.lazy(() => import('./pages/MalwareAnalysis'));
 
@@ -37,9 +37,11 @@ function Home() {
   return (
     <>
       <Hero />
-      <About />
-      <Projects />
-      <Contact />
+      <Suspense fallback={null}>
+        <About />
+        <Projects />
+        <Contact />
+      </Suspense>
     </>
   );
 }

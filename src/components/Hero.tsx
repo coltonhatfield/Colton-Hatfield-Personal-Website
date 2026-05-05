@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section className="min-h-[70vh] flex flex-col justify-center pt-10" id="hero">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8 pt-10">
-        <div className="flex flex-col">
+        <div className="flex flex-col" data-nosnippet>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -35,6 +35,7 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
           className="text-left md:text-right"
+          data-nosnippet
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">Major</p>
           <p className="text-xl md:text-2xl font-bold italic font-serif mt-1">Cybersecurity & INET</p>
@@ -49,8 +50,8 @@ export default function Hero() {
         className="mt-8 border-t border-b border-cyber-line py-8"
       >
         <div className="border border-[#333] p-6 bg-[#111] relative group hover:border-[#F0B800] transition-colors">
-          <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-2">Professional Overview</h2>
-          <p className="text-sm text-[#A3A3A3] leading-relaxed">Motivated cybersecurity and network engineering student with hands-on experience in networking, security, and enterprise-grade server environments. Skilled in configuring servers, applying security best practices, and troubleshooting systems.</p>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-2" data-nosnippet>Professional Overview</h2>
+          <p className="text-sm text-[#A3A3A3] leading-relaxed">Architecting resilient networks, enforcing rigorous system hardening, and engineering secure infrastructure from the ground up. Currently a sophomore in cybersecurity at Purdue University, with hands-on experience in enterprise-grade server environments.</p>
         </div>
       </motion.div>
 

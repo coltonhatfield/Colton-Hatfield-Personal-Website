@@ -1,0 +1,14 @@
+{
+  "name": "Colton Hatfield",
+  "short_name": "Colton",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "theme_color": "#F0B800",
+  "background_color": "#0D0D0D",
+  "display": "standalone"
+}
