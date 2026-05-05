@@ -6,9 +6,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import Navigation from './components/Navigation';
-import HeroSkeleton from './components/HeroSkeleton';
+import Hero from './components/Hero';
 
-const Hero = React.lazy(() => import('./components/Hero'));
 const InteractiveBackground = React.lazy(() => import('./components/InteractiveBackground'));
 const Footer = React.lazy(() => import('./components/Footer'));
 const ScrollProgress = React.lazy(() => import('./components/ScrollProgress'));
@@ -21,9 +20,7 @@ const MalwareAnalysis = React.lazy(() => import('./pages/MalwareAnalysis'));
 function Home() {
   return (
     <>
-      <Suspense fallback={<HeroSkeleton />}>
-        <Hero />
-      </Suspense>
+      <Hero />
       <Suspense fallback={null}>
         <About />
         <Projects />
