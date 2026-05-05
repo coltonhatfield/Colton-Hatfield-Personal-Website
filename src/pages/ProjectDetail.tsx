@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import { m } from 'motion/react';
+import { motion } from 'motion/react';
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import Markdown from 'react-markdown';
 import { projects } from '../data/projects';
@@ -26,7 +26,7 @@ export default function ProjectDetail() {
   }
 
   return (
-    <m.div 
+    <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -89,6 +89,6 @@ export default function ProjectDetail() {
           </a>
         )}
       </div>
-    </m.div>
+    </motion.div>
   );
 }
