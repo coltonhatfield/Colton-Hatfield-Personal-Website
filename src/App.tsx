@@ -5,38 +5,25 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { Suspense } from 'react';
-import { motion, useScroll, useSpring } from 'motion/react';
-import Hero from './components/Hero';
 import Navigation from './components/Navigation';
-import InteractiveBackground from './components/InteractiveBackground';
-import Footer from './components/Footer';
+import HeroSkeleton from './components/HeroSkeleton';
 
+const Hero = React.lazy(() => import('./components/Hero'));
+const InteractiveBackground = React.lazy(() => import('./components/InteractiveBackground'));
+const Footer = React.lazy(() => import('./components/Footer'));
+const ScrollProgress = React.lazy(() => import('./components/ScrollProgress'));
 const About = React.lazy(() => import('./components/About'));
 const Projects = React.lazy(() => import('./components/Projects'));
 const Contact = React.lazy(() => import('./components/Contact'));
 const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail'));
 const MalwareAnalysis = React.lazy(() => import('./pages/MalwareAnalysis'));
 
-function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 h-1 sm:h-2 bg-[#F0B800] origin-left z-[100]"
-      style={{ scaleX }}
-    />
-  );
-}
-
 function Home() {
   return (
     <>
-      <Hero />
+      <Suspense fallback={<HeroSkeleton />}>
+        <Hero />
+      </Suspense>
       <Suspense fallback={null}>
         <About />
         <Projects />
@@ -49,8 +36,10 @@ function Home() {
 export default function App() {
   return (
     <BrowserRouter>
-        <InteractiveBackground />
-        <ScrollProgress />
+        <Suspense fallback={null}>
+          <InteractiveBackground />
+          <ScrollProgress />
+        </Suspense>
         <div className="min-h-screen bg-transparent selection:bg-[#F0B800] selection:text-black border-[8px] md:border-[16px] border-[#1A1A1A] m-2 md:m-4 flex flex-col font-sans mb-2 md:mb-4 relative">
           <Navigation />
           <main className="max-w-6xl w-full mx-auto px-6 sm:px-12 pt-24 pb-12 md:py-20 flex-grow space-y-24 md:space-y-40 relative z-10">
@@ -62,7 +51,9 @@ export default function App() {
               </Routes>
             </Suspense>
           </main>
-          <Footer />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </div>
       </BrowserRouter>
   );
