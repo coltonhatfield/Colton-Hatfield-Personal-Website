@@ -7,33 +7,33 @@ export default function Hero() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8 pt-10">
         <div className="flex flex-col" data-nosnippet>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.5 }}
             className="font-mono text-[10px] uppercase tracking-[0.3em] text-purdue-gold mb-4"
           >
             / / PORTFOLIO
           </motion.div>
           
           <motion.h1 
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="font-sans font-black text-6xl sm:text-8xl md:text-9xl tracking-tighter leading-none text-white uppercase"
           >
             <div className="overflow-hidden">
-              <motion.span className="block" initial={{ y: 200 }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}>COLTON</motion.span>
+              <motion.span className="block" initial={{ y: 100 }} animate={{ y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>COLTON</motion.span>
             </div>
             <div className="overflow-hidden">
-              <motion.span className="block" initial={{ y: 200 }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>HATFIELD</motion.span>
+              <motion.span className="block" initial={{ y: 100 }} animate={{ y: 0 }} transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>HATFIELD</motion.span>
             </div>
           </motion.h1>
         </div>
 
         <motion.div 
-          initial={{ opacity: 0, x: 20 }}
+          initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
           className="text-left md:text-right"
           data-nosnippet
         >
@@ -44,9 +44,9 @@ export default function Hero() {
       </div>
 
       <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
         className="mt-8 border-t border-b border-cyber-line py-8"
       >
         <div className="border border-[#333] p-6 bg-[#111] relative group hover:border-[#F0B800] transition-colors">
@@ -58,7 +58,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
         className="mt-12 flex gap-8 justify-start items-center"
       >
         <a href="#projects" className="text-xs font-mono uppercase tracking-widest border-b border-transparent hover:border-[#F0B800] transition-all text-white pb-1 flex items-center group">
