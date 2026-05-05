@@ -13,8 +13,7 @@
     <link rel="preload" href="/fonts/v24-tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/v40-nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_k-UXtHA-X-uE0qEEw.woff2" as="font" type="font/woff2" crossorigin />
     
-    <link rel="preload" href="/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="/fonts.css" /></noscript>
+    <link rel="stylesheet" href="/fonts.css" />
     <!-- Additional SEO Meta Tags -->
     <meta property="og:title" content="Colton Hatfield - Cybersecurity & INET Professional" />
     <meta property="og:description" content="Portfolio of Colton Hatfield. Purdue University double major in Cybersecurity and Computing Infrastructure & Network Engineering Technology (INET)." />
@@ -42,21 +41,7 @@
   </head>
   <body style="background-color: #0D0D0D; color: #E0E0E0;">
     <div id="root"></div>
-    <div id="initial-bg" style="position: fixed; inset: 0; z-index: -1; pointer-events: none; background-color: #0D0D0D;">
-      <div style="position: absolute; inset: 0; opacity: 0.03; background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 40px 40px; background-position: 50% 50%;"></div>
-      <div style="position: absolute; inset: 0; mix-blend-mode: overlay; opacity: 0.15; background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E');"></div>
-    </div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // Remove initial bg once React mounts and renders InteractiveBackground 
-      // (or we can just leave it, but removing it prevents duplicate grids)
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const bg = document.getElementById('initial-bg');
-          if (bg) bg.style.display = 'none';
-        }, 500); // give time for React to render
-      });
-    </script>
   </body>
 </html>
 
