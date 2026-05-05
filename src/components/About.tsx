@@ -39,10 +39,10 @@ export default function About() {
           >
             <h2 className="text-3xl font-black uppercase italic mb-8 tracking-tighter">Skills & Background</h2>
             <div className="h-px w-full bg-[#333] mb-8"></div>
-            <p className="font-mono text-sm text-[#888] leading-relaxed mb-4">
+            <p className="font-mono text-sm text-[#A3A3A3] leading-relaxed mb-4">
               Currently a sophomore at Purdue University studying Cybersecurity and Computing Infrastructure & Network Engineering Technology (GPA 3.57). 
             </p>
-            <p className="font-mono text-sm text-[#888] leading-relaxed mb-6">
+            <p className="font-mono text-sm text-[#A3A3A3] leading-relaxed mb-6">
               Experienced in configuring enterprise servers, applying security best practices, and troubleshooting networking systems.
             </p>
             <div className="font-mono text-xs uppercase tracking-widest text-[#E0E0E0] mt-12 grid grid-cols-2 gap-4">
@@ -75,14 +75,14 @@ export default function About() {
                 <div className="mt-2 w-1.5 h-1.5 bg-[#F0B800] shrink-0"></div>
                 <div>
                   <div className="font-sans font-medium text-[#E0E0E0]">Google Cybersecurity Professional Certificate</div>
-                  <div className="font-mono text-xs text-[#888] mt-1">Completed</div>
+                  <div className="font-mono text-xs text-[#A3A3A3] mt-1">Completed</div>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <div className="mt-2 w-1.5 h-1.5 border border-[#F0B800] shrink-0"></div>
                 <div>
                   <div className="font-sans font-medium text-[#E0E0E0]">CompTIA Security+</div>
-                  <div className="font-mono text-xs text-[#888] mt-1">In Progress (Expected Summer 2026)</div>
+                  <div className="font-mono text-xs text-[#A3A3A3] mt-1">In Progress (Expected Summer 2026)</div>
                 </div>
               </li>
             </ul>
@@ -104,7 +104,7 @@ export default function About() {
                 </div>
                 <ul className="space-y-3">
                   {skillGroup.items.map((item, i) => (
-                    <li key={i} className="text-[#888] text-sm flex items-center gap-3">
+                    <li key={i} className="text-[#A3A3A3] text-sm flex items-center gap-3">
                       <div className="w-1.5 h-1.5 bg-[#F0B800] shrink-0"></div>
                       <span className="font-sans font-medium">{item}</span>
                     </li>

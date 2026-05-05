@@ -36,7 +36,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.8 }}
           className="text-left md:text-right"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#666]">Major</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">Major</p>
           <p className="text-xl md:text-2xl font-bold italic font-serif mt-1">Cybersecurity & INET</p>
           <p className="text-sm text-purdue-gold tracking-tighter uppercase font-bold mt-1">Purdue University '28</p>
         </motion.div>
@@ -49,8 +49,8 @@ export default function Hero() {
         className="mt-8 border-t border-b border-cyber-line py-8"
       >
         <div className="border border-[#333] p-6 bg-[#111] relative group hover:border-[#F0B800] transition-colors">
-          <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-2">Professional Overview</h3>
-          <p className="text-sm text-[#888] leading-relaxed">Motivated cybersecurity and network engineering student with hands-on experience in networking, security, and enterprise-grade server environments. Skilled in configuring servers, applying security best practices, and troubleshooting systems.</p>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-2">Professional Overview</h2>
+          <p className="text-sm text-[#A3A3A3] leading-relaxed">Motivated cybersecurity and network engineering student with hands-on experience in networking, security, and enterprise-grade server environments. Skilled in configuring servers, applying security best practices, and troubleshooting systems.</p>
         </div>
       </motion.div>
 

@@ -6,19 +6,19 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-[#333] max-w-6xl w-full mx-auto px-6 sm:px-12 py-12 text-center flex flex-col md:flex-row justify-between items-center gap-8 text-[#666] relative z-10 mt-12 mb-8 bg-[#0D0D0D]/80 backdrop-blur-sm border-x border-[#333] border-b">
+    <footer className="border-t border-[#333] max-w-6xl w-full mx-auto px-6 sm:px-12 py-12 text-center flex flex-col md:flex-row justify-between items-center gap-8 text-[#A3A3A3] relative z-10 mt-12 mb-8 bg-[#0D0D0D]/80 backdrop-blur-sm border-x border-[#333] border-b">
       <div className="flex flex-col items-center md:items-start tracking-widest space-y-4">
         <p className="text-[10px] font-mono uppercase">
           © {new Date().getFullYear()} Colton Hatfield. Built for Web.
         </p>
-        <span className="text-[10px] font-mono text-[#666] uppercase">
+        <span className="text-[10px] font-mono text-[#A3A3A3] uppercase">
           <a href="mailto:coltonrhatfield@gmail.com" className="hover:text-white transition-colors">coltonrhatfield@gmail.com</a>
         </span>
       </div>
 
       <button 
         onClick={scrollToTop}
-        className="group flex flex-col items-center gap-2 text-[#666] hover:text-[#F0B800] transition-colors"
+        className="group flex flex-col items-center gap-2 text-[#A3A3A3] hover:text-[#F0B800] transition-colors"
       >
         <div className="p-3 border border-[#333] group-hover:border-[#F0B800] transition-colors rounded-none bg-[#111]">
           <ArrowUp size={16} />

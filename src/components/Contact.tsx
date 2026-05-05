@@ -25,7 +25,7 @@ export default function Contact() {
             <h2 className="text-3xl md:text-5xl font-black uppercase italic text-white mb-6 tracking-tighter">
               Get in Touch
             </h2>
-            <p className="font-sans text-sm text-[#888] leading-relaxed">
+            <p className="font-sans text-sm text-[#A3A3A3] leading-relaxed">
               Currently seeking internship opportunities for Summer 2026. Whether it's a full-time role, freelance project, or just looking to connect, my inbox is open.
             </p>
           </div>
@@ -39,7 +39,7 @@ export default function Contact() {
               <div className="w-[1px] bg-[#333] group-hover:bg-[#F0B800] transition-colors my-2"></div>
               <button 
                 onClick={handleCopy}
-                className="flex items-center justify-center px-4 md:px-6 shrink-0 hover:bg-[#111] hover:text-[#F0B800] transition-colors text-[#666]"
+                className="flex items-center justify-center px-4 md:px-6 shrink-0 hover:bg-[#111] hover:text-[#F0B800] transition-colors text-[#A3A3A3]"
                 title="Copy Email"
               >
                 {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
@@ -47,17 +47,17 @@ export default function Contact() {
             </div>
 
             <div className="grid grid-cols-3 gap-4">
-              <a href="https://www.linkedin.com/in/colton-hatfield-299072332/" target="_blank" rel="noopener noreferrer" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#666] group h-[100px]">
+              <a href="https://www.linkedin.com/in/colton-hatfield-299072332/" target="_blank" rel="noopener noreferrer" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#A3A3A3] group h-[100px]">
                 <Linkedin className="w-6 h-6 mb-2 text-white group-hover:text-[#F0B800] group-hover:-translate-y-1 transition-all" />
                 <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-white group-hover:text-[#F0B800] transition-colors">LinkedIn</span>
                 <span className="font-mono text-[8px] uppercase tracking-widest mt-1 transition-colors flex items-center gap-1 text-white group-hover:text-[#F0B800] absolute bottom-3">Visit ↗</span>
               </a>
-              <a href="https://github.com/coltonhatfield" target="_blank" rel="noopener noreferrer" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#666] group h-[100px]">
+              <a href="https://github.com/coltonhatfield" target="_blank" rel="noopener noreferrer" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#A3A3A3] group h-[100px]">
                 <Github className="w-6 h-6 mb-2 text-white group-hover:text-[#F0B800] group-hover:-translate-y-1 transition-all" />
                 <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-white group-hover:text-[#F0B800] transition-colors">Github</span>
                 <span className="font-mono text-[8px] uppercase tracking-widest mt-1 transition-colors flex items-center gap-1 text-white group-hover:text-[#F0B800] absolute bottom-3">Visit ↗</span>
               </a>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Colton_Hatfield_Resume.pdf" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#666] group h-[100px]">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Colton_Hatfield_Resume.pdf" className="relative flex flex-col items-center justify-center py-5 px-2 bg-[#0D0D0D] border border-[#333] hover:border-[#F0B800] hover:bg-[#F0B800]/5 transition-all text-[#A3A3A3] group h-[100px]">
                 <FileText className="w-6 h-6 mb-2 text-white group-hover:text-[#F0B800] group-hover:-translate-y-1 transition-all" />
                 <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-white group-hover:text-[#F0B800] transition-colors">Resume</span>
                 <span className="font-mono text-[8px] uppercase tracking-widest mt-1 transition-colors flex items-center gap-1 text-white group-hover:text-[#F0B800] absolute bottom-3">View ↗</span>
