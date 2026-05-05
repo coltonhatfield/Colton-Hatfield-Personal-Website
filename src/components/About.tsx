@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Database, Shield, Monitor, Network, Award } from 'lucide-react';
 
 const skills = [
@@ -30,7 +30,7 @@ export default function About() {
       <div className="flex flex-col md:flex-row gap-16">
         
         <div className="md:w-1/3">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -55,11 +55,11 @@ export default function About() {
                 <span className="text-white">San Clemente, CA</span>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
 
         <div className="md:w-2/3">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -86,11 +86,11 @@ export default function About() {
                 </div>
               </li>
             </ul>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {skills.map((skillGroup, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -110,7 +110,7 @@ export default function About() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </m.div>
             ))}
           </div>
 

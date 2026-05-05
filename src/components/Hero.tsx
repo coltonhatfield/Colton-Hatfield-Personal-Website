@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { ChevronRight } from 'lucide-react';
 
 export default function Hero() {
@@ -6,31 +6,31 @@ export default function Hero() {
     <section className="min-h-[70vh] flex flex-col justify-center pt-10" id="hero">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8 pt-10">
         <div className="flex flex-col" data-nosnippet>
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="font-mono text-[10px] uppercase tracking-[0.3em] text-purdue-gold mb-4"
           >
             / / PORTFOLIO
-          </motion.div>
+          </m.div>
           
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
             className="font-sans font-black text-6xl sm:text-8xl md:text-9xl tracking-tighter leading-none text-white uppercase"
           >
             <div className="overflow-hidden">
-              <motion.span className="block" initial={{ y: 200 }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}>COLTON</motion.span>
+              <m.span className="block" initial={{ y: 200 }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}>COLTON</m.span>
             </div>
             <div className="overflow-hidden">
-              <motion.span className="block" initial={{ y: 200 }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>HATFIELD</motion.span>
+              <m.span className="block" initial={{ y: 200 }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>HATFIELD</m.span>
             </div>
-          </motion.h1>
+          </m.h1>
         </div>
 
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
@@ -40,10 +40,10 @@ export default function Hero() {
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3]">Major</p>
           <p className="text-xl md:text-2xl font-bold italic font-serif mt-1">Cybersecurity & INET</p>
           <p className="text-sm text-purdue-gold tracking-tighter uppercase font-bold mt-1">Purdue University '28</p>
-        </motion.div>
+        </m.div>
       </div>
 
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
@@ -53,9 +53,9 @@ export default function Hero() {
           <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-2" data-nosnippet>Professional Overview</h2>
           <p className="text-sm text-[#A3A3A3] leading-relaxed">Architecting resilient networks, enforcing rigorous system hardening, and engineering secure infrastructure from the ground up. Currently a sophomore in cybersecurity at Purdue University, with hands-on experience in enterprise-grade server environments.</p>
         </div>
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.5 }}
@@ -68,7 +68,7 @@ export default function Hero() {
         <a href="#contact" className="bg-[#F0B800] text-black px-6 py-2 text-xs font-black uppercase tracking-tighter hover:bg-white transition-colors">
           Get In Touch
         </a>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

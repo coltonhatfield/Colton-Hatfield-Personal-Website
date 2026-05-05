@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
@@ -6,7 +6,7 @@ import { projects } from '../data/projects';
 export default function Projects() {
   return (
     <section id="projects" className="pt-24 mt-[-6rem]">
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -15,11 +15,11 @@ export default function Projects() {
         <h2 className="text-3xl font-black uppercase italic tracking-tighter">Featured Projects</h2>
         <span className="h-px bg-[#333] flex-grow mx-4 mb-2 hidden md:block"></span>
         <span className="font-mono text-[10px] text-[#A3A3A3] uppercase tracking-widest">[01—{projects.length < 10 ? '0' : ''}{projects.length}]</span>
-      </motion.div>
+      </m.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-[#333] pt-8">
         {projects.map((project, idx) => (
-          <motion.div
+          <m.div
             key={project.id}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -63,7 +63,7 @@ export default function Projects() {
                 )}
               </div>
             </div>
-          </motion.div>
+          </m.div>
         ))}
       </div>
     </section>

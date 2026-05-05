@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Mail, Linkedin, Github, FileText, Copy, Check } from 'lucide-react';
 
 export default function Contact() {
@@ -13,7 +13,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="pt-24 mt-[-6rem]">
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -66,7 +66,7 @@ export default function Contact() {
           </div>
           
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

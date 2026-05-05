@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Terminal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ export default function Navigation() {
   }, []);
 
   return (
-    <motion.nav 
+    <m.nav 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -56,7 +56,7 @@ export default function Navigation() {
 
         {/* Mobile Menu Dropdown */}
         {isOpen && (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             className="absolute top-full left-0 right-0 mt-4 md:hidden flex flex-col bg-[#0D0D0D]/95 backdrop-blur-lg border border-[#333] p-6 shadow-2xl z-50"
@@ -64,9 +64,9 @@ export default function Navigation() {
             <a href="/#about" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ About</a>
             <a href="/#projects" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block border-b border-[#222] pb-4 mb-4 font-mono text-xs tracking-widest uppercase">/ Projects</a>
             <a href="/#contact" onClick={() => setIsOpen(false)} className="text-cyber-muted hover:text-purdue-gold transition-colors block font-mono text-xs tracking-widest uppercase">/ Contact</a>
-          </motion.div>
+          </m.div>
         )}
       </div>
-    </motion.nav>
+    </m.nav>
   );
 }
