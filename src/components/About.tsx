@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Database, Shield, Monitor, Network, Award } from 'lucide-react';
+import { Database, Shield, Monitor, Network, Award, Briefcase } from 'lucide-react';
 
 const skills = [
   {
@@ -74,6 +74,20 @@ export default function About() {
               <li className="flex items-start gap-3">
                 <div className="mt-2 w-1.5 h-1.5 bg-[#F0B800] shrink-0"></div>
                 <div>
+                  <div className="font-sans font-medium text-[#E0E0E0]">CompTIA Security+</div>
+                  <div className="font-mono text-xs text-[#A3A3A3] mt-1">Completed</div>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="mt-2 w-1.5 h-1.5 bg-[#F0B800] shrink-0"></div>
+                <div>
+                  <div className="font-sans font-medium text-[#E0E0E0]">TCM Security Practical SOC Analyst Professional Certificate</div>
+                  <div className="font-mono text-xs text-[#A3A3A3] mt-1">Completed</div>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="mt-2 w-1.5 h-1.5 bg-[#F0B800] shrink-0"></div>
+                <div>
                   <div className="font-sans font-medium text-[#E0E0E0]">Google Cybersecurity Professional Certificate</div>
                   <div className="font-mono text-xs text-[#A3A3A3] mt-1">Completed</div>
                 </div>
@@ -81,9 +95,45 @@ export default function About() {
               <li className="flex items-start gap-3">
                 <div className="mt-2 w-1.5 h-1.5 border border-[#F0B800] shrink-0"></div>
                 <div>
-                  <div className="font-sans font-medium text-[#E0E0E0]">CompTIA Security+</div>
-                  <div className="font-mono text-xs text-[#A3A3A3] mt-1">In Progress (Expected Summer 2026)</div>
+                  <div className="font-sans font-medium text-[#E0E0E0]">TCM Security Practical Malware Research Professional Certificate</div>
+                  <div className="font-mono text-xs text-[#A3A3A3] mt-1">In Progress</div>
                 </div>
+              </li>
+            </ul>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-8 bg-[#111] border border-[#333] p-6 hover:border-[#F0B800] transition-colors"
+          >
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[#333]">
+              <Briefcase className="w-5 h-5 text-[#F0B800]" />
+              <h3 className="text-sm font-bold uppercase tracking-wide">Experience</h3>
+            </div>
+            <ul className="space-y-6">
+              <li className="flex flex-col gap-1">
+                <div className="flex justify-between items-start">
+                  <div className="font-sans font-bold text-[#E0E0E0] text-lg">Purdue IT</div>
+                  <div className="font-mono text-xs text-[#F0B800] mt-1 whitespace-nowrap">Starting Aug 2026</div>
+                </div>
+                <div className="font-mono text-sm text-[#A3A3A3] mb-2 uppercase tracking-wide">Student Technical Representative</div>
+                <ul className="space-y-2 mt-2">
+                  <li className="text-[#A3A3A3] text-sm flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 bg-[#F0B800] shrink-0 mt-2"></div>
+                    <span className="leading-relaxed">Provide Tier 1 technical support for the university community, resolving software, hardware, and network connectivity issues.</span>
+                  </li>
+                  <li className="text-[#A3A3A3] text-sm flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 bg-[#F0B800] shrink-0 mt-2"></div>
+                    <span className="leading-relaxed">Manage, document, and escalate customer support requests utilizing the TeamDynamix (TDX) ticketing system.</span>
+                  </li>
+                  <li className="text-[#A3A3A3] text-sm flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 bg-[#F0B800] shrink-0 mt-2"></div>
+                    <span className="leading-relaxed">Monitor computer lab infrastructure and peripherals across multiple campus libraries utilizing endpoint management tools.</span>
+                  </li>
+                </ul>
               </li>
             </ul>
           </motion.div>
