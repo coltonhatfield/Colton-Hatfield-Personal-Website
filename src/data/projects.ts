@@ -64,30 +64,30 @@ Beyond just presenting information, the portfolio itself is a testament to my **
 export const projects: Project[] = [
   {
     id: 'public-honeypot',
-    title: 'Public Honeypot & Threat Analysis',
+    title: 'Public Honeypot & Dynamic Malware Analysis',
     year: '2026',
-    description: 'Deployed a public honeypot and Wazuh SIEM pipeline to capture real-world attacks. Engineered a Proxmox/REMnux sandbox to dynamically analyze and contain the sophisticated botnet payloads.',
+    description: 'Deployed an Oracle Cloud Cowrie honeypot and Wazuh SIEM to actively extract real-world botnet IoCs. Provisioned an air-gapped REMnux sandbox on Proxmox to safely execute multi-stage Python worms and capture network telemetry. Authored comprehensive threat intelligence reports mapping credential stuffing vectors and post-exploitation tactics to MITRE ATT&CK.',
     longDescription: honeypotMd,
     tags: ['Security', 'Honeypot', 'Wazuh', 'Malware Analysis', 'Threat Intelligence'],
     github: 'https://github.com/coltonhatfield/oracle-wazuh-honeypot'
   },
   {
-    id: 'vitalis',
-    title: 'Vitalis v2.1',
+    id: 'enterprise-cyber-range',
+    title: 'Enterprise Cyber Range & Proxmox Infrastructure',
     year: '2026',
-    description: 'An AI-powered health application designed to assist users in tracking wellness goals. Features deep biometric tracking, workout logging, AI recovery planning, and Firebase integration.',
-    longDescription: vitalisMd,
-    tags: ['AI/ML', 'HealthTech', 'Proxmox', 'Tailscale', 'React', 'Firebase'],
-    github: 'https://github.com/coltonhatfield/AI-Health-App/tree/main'
+    description: 'Created a bare-metal Proxmox environment utilizing Terraform (IaC) to automatically provision segmented target VMs and routing. Architected an isolated network using OPNsense firewalls to securely simulate enterprise-grade vulnerable security architectures. Engineered automated provisioning pipelines via Cloud-Init and SSH remote-exec to rapidly deploy disposable incident response nodes.',
+    longDescription: cyberRangeMd,
+    tags: ['Terraform', 'Proxmox', 'OPNsense', 'Tailscale', 'IaC'],
+    github: 'https://github.com/coltonhatfield/proxmox-cyber-range-iac'
   },
   {
-    id: 'enterprise-cyber-range',
-    title: 'Enterprise Cyber Range Infrastructure',
+    id: 'vitalis',
+    title: 'Vitalis Full-Stack Web Application',
     year: '2026',
-    description: 'Developed an Infrastructure as Code (IaC) cyber range on a bare-metal Proxmox hypervisor. Automated provisioning of target VMs, an OPNsense perimeter firewall, and secure Tailscale VPN tunneling.',
-    longDescription: cyberRangeMd,
-    tags: ['Terraform', 'Proxmox', 'OPNsense', 'Tailscale'],
-    github: 'https://github.com/coltonhatfield/proxmox-cyber-range-iac'
+    description: 'Developed a secure full-stack health application integrating Google OAuth authentication and real-time cloud database syncing. Engineered backend REST APIs with Node.js to securely process and validate sensitive biometric telemetry and AI health data. Implemented strict data privacy controls and user-managed data deletion pipelines within Firebase and Cloud Firestore systems.',
+    longDescription: vitalisMd,
+    tags: ['Full-Stack', 'Node.js', 'React', 'Firebase', 'OAuth', 'API Security'],
+    github: 'https://github.com/coltonhatfield/AI-Health-App/tree/main'
   },
   {
     id: 'personal-portfolio',

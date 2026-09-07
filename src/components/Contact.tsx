@@ -6,7 +6,7 @@ export default function Contact() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('contact@coltonhatfield.com');
+    navigator.clipboard.writeText('coltonrhatfield@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -26,15 +26,15 @@ export default function Contact() {
               Get in Touch
             </h2>
             <p className="font-sans text-sm text-[#A3A3A3] leading-relaxed">
-              Currently seeking internship opportunities for Summer 2026. Whether it's a full-time role, freelance project, or just looking to connect, my inbox is open.
+              Currently working as an IT Technician and open to cybersecurity, cloud infrastructure, and network engineering opportunities. Whether it's a technical role, security challenge, or just looking to connect, my inbox is open.
             </p>
           </div>
 
           <div className="flex flex-col gap-4 w-full md:w-auto">
             <div className="flex w-full items-stretch border border-[#333] bg-[#0D0D0D] hover:border-[#F0B800] transition-colors group">
-              <a href="mailto:contact@coltonhatfield.com" className="flex-1 flex items-center gap-4 px-4 md:px-6 py-4 overflow-hidden hover:bg-[#111] transition-colors" title="Send Mail">
+              <a href="mailto:coltonrhatfield@gmail.com" className="flex-1 flex items-center gap-4 px-4 md:px-6 py-4 overflow-hidden hover:bg-[#111] transition-colors" title="Send Mail">
                 <Mail className="w-5 h-5 shrink-0 text-[#F0B800]" />
-                <span className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-[#E0E0E0] group-hover:text-white truncate block">contact@coltonhatfield.com</span>
+                <span className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-[#E0E0E0] group-hover:text-white truncate block">coltonrhatfield@gmail.com</span>
               </a>
               <div className="w-[1px] bg-[#333] group-hover:bg-[#F0B800] transition-colors my-2"></div>
               <button 

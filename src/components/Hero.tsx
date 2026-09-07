@@ -51,7 +51,7 @@ export default function Hero() {
       >
         <div className="border border-[#333] p-6 bg-[#111] relative group hover:border-[#F0B800] transition-colors">
           <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-2" data-nosnippet>Professional Overview</h2>
-          <p className="text-sm text-[#A3A3A3] leading-relaxed">Architecting resilient networks, enforcing rigorous system hardening, and engineering secure infrastructure from the ground up. Currently a sophomore in cybersecurity at Purdue University, with hands-on experience in enterprise-grade server environments.</p>
+          <p className="text-sm text-[#A3A3A3] leading-relaxed">Architecting resilient networks, enforcing rigorous system hardening, and engineering secure infrastructure from the ground up. Currently working as an IT Technician at Purdue IT while pursuing a B.S. in Cybersecurity & INET at Purdue University ('28).</p>
         </div>
       </motion.div>
 
