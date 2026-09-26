@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="PACER models the economics of financially motivated cyberattack scenarios with transparent assumptions and uncertainty.">
+  <title>PACER Scenario Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307191d'/%3E%3Cpath d='M15 45V19h18c9 0 15 5 15 13s-6 13-15 13H15Zm9-8h9c4 0 6-2 6-5s-2-5-6-5h-9v10Z' fill='%235de4c7'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="PACER home">
+      <span class="brand-mark" aria-hidden="true">P</span>
+      <span><strong>PACER</strong><small>Scenario Lab</small></span>
+    </a>
+    <nav aria-label="Utility navigation">
+      <button class="text-button" data-dialog="methodology">Methodology</button>
+      <button class="text-button" data-dialog="evidence">Evidence</button>
+      <button class="outline-button" id="exportBtn">Export assessment</button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="intro" aria-labelledby="pageTitle">
+      <div>
+        <p class="eyebrow">Priceable Attack Cost &amp; Economic Resources</p>
+        <h1 id="pageTitle">Test the economics of a cyberattack scenario.</h1>
+        <p>Choose a business cohort, attack path, and defensive posture. PACER runs a reproducible uncertainty model and keeps attacker economics separate from defender loss.</p>
+      </div>
+      <div class="model-stamp">
+        <span>MODEL</span>
+        <strong>2026.09</strong>
+        <small>20,000 seeded draws</small>
+      </div>
+    </section>
+
+    <div class="truth-strip" role="note">
+      <span class="status-dot" aria-hidden="true"></span>
+      <p><strong>Decision support, not a prediction.</strong> Public evidence is strongest for ransom payments, recovery costs, and breach vectors. Attack costs, stage success, cohort scaling, and control effects remain explicit scenario assumptions.</p>
+    </div>
+    <div class="mobile-tools" aria-label="Model information">
+      <button class="text-button" data-dialog="methodology">Methodology</button>
+      <button class="text-button" data-dialog="evidence">Evidence</button>
+    </div>
+
+    <section class="workspace" aria-label="PACER scenario workspace">
+      <aside class="inputs-panel">
+        <div class="panel-heading">
+          <div><span class="step">01</span><h2>Build a scenario</h2></div>
+          <button class="icon-button" id="resetBtn" title="Reset inputs" aria-label="Reset inputs">↺</button>
+        </div>
+
+        <form id="modelForm">
+          <fieldset>
+            <legend>Organization</legend>
+            <div class="field-grid two">
+              <label>Country
+                <select id="country">
+                  <option value="us">United States</option>
+                  <option value="ca">Canada</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="eu">European Union</option>
+                  <option value="au">Australia</option>
+                  <option value="other">Other / global</option>
+                </select>
+              </label>
+              <label>Industry
+                <select id="industry">
+                  <option value="professional">Professional services</option>
+                  <option value="financial">Financial services</option>
+                  <option value="healthcare">Healthcare</option>
+                  <option value="manufacturing">Manufacturing</option>
+                  <option value="technology">Technology</option>
+                  <option value="retail">Retail</option>
+                  <option value="education">Education</option>
+                  <option value="government">Government</option>
+                  <option value="energy">Energy &amp; utilities</option>
+                  <option value="transport">Transportation</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+            </div>
+            <div class="field-grid two">
+              <label>Annual revenue
+                <select id="revenue">
+                  <option value="5000000">Under $10M</option>
+                  <option value="30000000">$10M–$50M</option>
+                  <option value="75000000" selected>$50M–$100M</option>
+                  <option value="175000000">$100M–$250M</option>
+                  <option value="375000000">$250M–$500M</option>
+                  <option value="750000000">$500M–$1B</option>
+                  <option value="3000000000">$1B–$5B</option>
+                  <option value="7500000000">$5B+</option>
+                </select>
+              </label>
+              <label>Employees
+                <select id="employees">
+                  <option value="25">1–50</option>
+                  <option value="75">51–100</option>
+                  <option value="150" selected>101–200</option>
+                  <option value="350">201–500</option>
+                  <option value="750">501–1,000</option>
+                  <option value="3000">1,001–5,000</option>
+                  <option value="7500">5,001–10,000</option>
+                  <option value="15000">10,000+</option>
+                </select>
+              </label>
+            </div>
+            <label>Technology environment
+              <select id="environment">
+                <option value="hybrid">Hybrid</option>
+                <option value="cloud">Cloud-heavy</option>
+                <option value="onprem">Primarily on-premises</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Attack scenario</legend>
+            <label>Attacker archetype
+              <select id="archetype">
+                <option value="credential">Credential-led ransomware affiliate</option>
+                <option value="vulnerability">Vulnerability-led enterprise ransomware</option>
+                <option value="extortion">Data theft &amp; extortion operator</option>
+              </select>
+            </label>
+            <div class="scenario-note" id="scenarioNote"></div>
+          </fieldset>
+
+          <fieldset>
+            <div class="legend-row">
+              <legend>Defensive posture</legend>
+              <span class="assumption-tag">MODELED EFFECTS</span>
+            </div>
+            <p class="field-help">Rate implementation across the in-scope environment. “Partial” means material gaps remain.</p>
+            <div id="controlsList" class="controls-list"></div>
+          </fieldset>
+
+          <details class="advanced">
+            <summary>Advanced assumptions</summary>
+            <div class="advanced-content">
+              <label>Recovery-cost anchor
+                <select id="recoveryAnchor">
+                  <option value="1700000">$1.70M — Sophos 2026 mean</option>
+                  <option value="1530000">$1.53M — Sophos 2025 mean</option>
+                  <option value="2730000">$2.73M — Sophos 2024 mean</option>
+                </select>
+              </label>
+              <label>Paid-ransom anchor
+                <select id="ransomAnchor">
+                  <option value="325000">$325k — Coveware Q4 2025 median</option>
+                  <option value="769000">$769k — Sophos 2026 median</option>
+                  <option value="115000">$115k — Verizon 2025 median</option>
+                </select>
+              </label>
+              <label>Payment probability <output id="paymentOutput">31%</output>
+                <input type="range" id="paymentProbability" min="0" max="70" value="31" step="1">
+              </label>
+              <label>Random seed
+                <input type="number" id="seed" value="20260925" min="1" max="2147483646">
+              </label>
+            </div>
+          </details>
+        </form>
+      </aside>
+
+      <section class="results-panel" id="results-panel" aria-live="polite" aria-busy="false">
+        <div class="results-head">
+          <div><span class="step">02</span><h2>Modeled outcomes</h2></div>
+          <div class="confidence"><span>Evidence confidence</span><strong>Mixed</strong></div>
+        </div>
+
+        <div class="metric-grid">
+          <article class="metric featured">
+            <p>Total economic attack cost <button class="info" data-tip="Median attacker resource cost across preparation, access, capability, execution, and realization.">i</button></p>
+            <strong id="teacValue">—</strong>
+            <span id="teacRange">—</span>
+          </article>
+          <article class="metric">
+            <p>Scenario success</p>
+            <strong id="successValue">—</strong>
+            <span id="successRange">—</span>
+          </article>
+          <article class="metric">
+            <p>Economically viable</p>
+            <strong id="viableValue">—</strong>
+            <span>P(expected ROA &gt; 1)</span>
+          </article>
+          <article class="metric loss">
+            <p>Loss if scenario succeeds</p>
+            <strong id="lossValue">—</strong>
+            <span id="lossRange">—</span>
+          </article>
+        </div>
+
+        <div class="interpretation" id="interpretation"></div>
+
+        <div class="visual-grid">
+          <article class="chart-card wide">
+            <div class="card-title"><div><span class="step">03</span><h3>PACER cost anatomy</h3></div><span>median USD</span></div>
+            <div id="pacerBar" class="pacer-bar" aria-label="PACER cost breakdown"></div>
+            <div id="pacerLegend" class="legend"></div>
+          </article>
+
+          <article class="chart-card">
+            <div class="card-title"><div><span class="step">04</span><h3>Attack path</h3></div><span>conditional median</span></div>
+            <div id="stageChart" class="stage-chart"></div>
+          </article>
+
+          <article class="chart-card">
+            <div class="card-title"><div><span class="step">05</span><h3>Loss distribution</h3></div><span>successful scenario</span></div>
+            <svg id="lossChart" viewBox="0 0 520 220" role="img" aria-label="Simulated defender loss distribution"></svg>
+          </article>
+        </div>
+
+        <article class="recommendations">
+          <div class="card-title"><div><span class="step">06</span><h3>Highest-impact improvements</h3></div><span>one control changed to implemented</span></div>
+          <div id="recommendationList"></div>
+        </article>
+
+        <article class="ledger">
+          <div class="ledger-copy">
+            <span class="step">07</span>
+            <div><h3>Two ledgers, kept separate</h3><p>Attacker proceeds are not the same as defender harm. PACER reports both so the asymmetry stays visible.</p></div>
+          </div>
+          <div class="ledger-values">
+            <div><span>Expected attacker proceeds</span><strong id="proceedsValue">—</strong></div>
+            <div><span>Expected defender loss per attempt</span><strong id="expectedLossValue">—</strong></div>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <div><strong>PACER</strong><span>Open methodology · reproducible seed · source-linked assumptions</span></div>
+    <p>Defensive research only. Not a forecast, compliance score, or substitute for organization-specific risk analysis.</p>
+  </footer>
+
+  <dialog id="methodologyDialog">
+    <div class="dialog-head"><div><p class="eyebrow">Model card</p><h2>How the calculator works</h2></div><button class="close-dialog" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <section><h3>One scenario, 20,000 possible worlds</h3><p>Each run samples five attacker-cost buckets, ten conditional attack stages, monetizable value, payment, and recovery cost. A fixed seed makes the same inputs reproducible.</p></section>
+      <section><h3>Core equations</h3><code>TEAC = P + A + C + E + R</code><code>P(success) = ∏ P(stageᵢ | prior stages, attacker, defender, cohort)</code><code>Expected attacker proceeds = P(success) × monetizable value</code><code>Expected loss per attempted scenario = P(success) × loss if successful</code></section>
+      <section><h3>Cohort scaling</h3><p>Revenue and employee count alter access, execution, monetization, and recovery distributions with deliberately modest elasticities. These elasticities are scenario assumptions because public incident-level datasets are not sufficient to estimate a general company-size equation. The exported assessment records them.</p></section>
+      <section><h3>What controls do</h3><p>Controls modify relevant stage probabilities and, where economically coherent, attack cost or monetizable value. A shared posture factor also introduces dependence between stages. Effect sizes are transparent modeled assumptions—not causal claims.</p></section>
+      <section><h3>Interpret carefully</h3><p>The model asks whether a specified attack path looks economically attractive under uncertainty. It does not estimate annual breach frequency, predict a named actor, or produce a validated organization-specific risk score.</p></section>
+    </div>
+  </dialog>
+
+  <dialog id="evidenceDialog">
+    <div class="dialog-head"><div><p class="eyebrow">Evidence register</p><h2>What is observed vs. modeled</h2></div><button class="close-dialog" aria-label="Close">×</button></div>
+    <div class="dialog-body evidence-list">
+      <section><span class="evidence observed">OBSERVED</span><h3>Initial access and ransomware prevalence</h3><p>Verizon’s 2026 DBIR reports software vulnerability exploitation as the leading initial-access vector (31%) and ransomware in 48% of breaches. These are breach-sample frequencies, not attack probabilities.</p><a href="https://www.verizon.com/business/resources/reports/dbir/" target="_blank" rel="noreferrer">Verizon 2026 DBIR ↗</a></section>
+      <section><span class="evidence observed">OBSERVED</span><h3>Ransom payment behavior</h3><p>Verizon reports 69% of ransomware victims in its 2025 dataset did not pay. PACER’s default payment probability is therefore 31%.</p><a href="https://www.verizon.com/business/resources/T343/reports/2026-dbir-data-breach-investigations-report.pdf" target="_blank" rel="noreferrer">Verizon 2026 DBIR report ↗</a></section>
+      <section><span class="evidence observed">OBSERVED</span><h3>Recovery-cost anchor</h3><p>Sophos’ 2026 survey reports a $1.7M average recovery cost across 2,158 organizations hit by ransomware. Survey selection, organization mix, and mean/median differences matter.</p><a href="https://www.sophos.com/en-us/content/state-of-ransomware" target="_blank" rel="noreferrer">Sophos State of Ransomware ↗</a></section>
+      <section><span class="evidence observed">OBSERVED</span><h3>Paid-ransom anchor</h3><p>Coveware reported a $325k median payment for Q4 2025. The alternative Sophos preset reflects a different sample: organizations that paid after being hit.</p><a href="https://coveware.com/2026/02/why-zero-day-downstream-mass-data-extortion-campaigns-are-losing-their-bite/" target="_blank" rel="noreferrer">Coveware Q4 2025 ↗</a></section>
+      <section><span class="evidence observed">OBSERVED</span><h3>Market scale</h3><p>Chainalysis estimates $820M in 2025 on-chain ransomware payments, while warning that attribution updates can revise totals. This contextualizes the market; it does not calibrate a single victim.</p><a href="https://www.chainalysis.com/blog/crypto-ransomware-2026/" target="_blank" rel="noreferrer">Chainalysis 2026 report ↗</a></section>
+      <section><span class="evidence modeled">MODELED</span><h3>Attacker cost priors and stage success</h3><p>Preparation, access, capability, execution, realization, ten-stage success priors, cohort scaling, and defensive effect sizes remain explicit assumptions inherited from and extended beyond the Phase 1 model. They are varied in every run and never shown as observed facts.</p></section>
+    </div>
+  </dialog>
+
+  <div id="tooltip" role="tooltip"></div>
+  <script src="app.js"></script>
+</body>
+</html>
