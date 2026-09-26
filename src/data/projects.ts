@@ -121,5 +121,41 @@ export const projects: Project[] = [
     description: 'Designed and implemented an enterprise Active Directory environment utilizing Windows Server and VMware Hypervisor for CNIT 242.',
     longDescription: 'Developed as part of CNIT 242 coursework, this project involved designing a resilient Windows Server environment conforming to enterprise standards. It includes a functional Active Directory domain structure, implemented Group Policy Objects for automated security baselining, and functional role-based access control (RBAC) modeling across integrated services.',
     tags: ['Active Directory', 'Windows Server', 'VMware', 'Networking']
+  },
+  {
+    id: 'pacer-scenario-lab',
+    title: 'PACER Scenario Lab',
+    year: '2026',
+    description: 'A transparent scenario calculator for modeling attacker economics, conditional attack progression, defensive controls, and potential defender loss across organizations of different sizes.',
+    longDescription: `
+### Overview
+
+PACER is a research-backed scenario model for financially motivated cyberattacks.
+
+It keeps two ledgers separate:
+
+- attacker economic cost and expected proceeds
+- defender loss if the scenario succeeds
+
+The calculator uses uncertainty-aware Monte Carlo simulation rather than a single deterministic risk score.
+
+### What It Demonstrates
+
+- Cybersecurity economics
+- Monte Carlo simulation
+- Threat-informed modeling
+- MITRE ATT&CK and D3FEND-aligned controls
+- Cohort-based organization modeling
+- Evidence and assumption provenance
+- Browser-only privacy-preserving processing
+
+### Use the Tool
+
+👉 **[Open the PACER Scenario Lab](/pacer/)**
+
+The current version is a decision-support scenario model, not a validated organization-specific prediction system.
+`,
+    tags: ['Cybersecurity', 'Risk Modeling', 'Monte Carlo', 'React', 'Research'],
+    link: '/pacer/'
   }
 ];
