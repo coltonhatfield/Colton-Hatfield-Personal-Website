@@ -5,10 +5,12 @@
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (root) root.PacerModel = api;
 })(typeof globalThis !== "undefined" ? globalThis : this, function buildPacerModel() {
-  const MODEL_VERSION = "2026.09.4";
+  const MODEL_VERSION = "2026.09.5";
   const CUSTOMER_RECORD_VALUE = 7;
   const BASE_SUCCESS_PROBABILITY = 0.56;
-  const MAX_DEFENSE_REDUCTION = 0.82;
+  const MAX_DEFENSE_REDUCTION = 0.90;
+  const DEFAULT_CONTROL_EFFECTIVENESS = 0.75;
+  const DEFENSE_RESPONSE = 3;
   const RAAS_SHARE = 0.25;
 
   const TACTICS = [
@@ -18,6 +20,16 @@
     { key: "isolate", name: "Isolate", weight: 0.17, referenceCount: 33 },
     { key: "deceive", name: "Deceive", weight: 0.07, referenceCount: 9 },
     { key: "evict", name: "Evict", weight: 0.15, referenceCount: 25 }
+  ];
+
+  // The stage baselines multiply to the observed 56% conditional outcome.
+  // They are not annual breach probabilities: they describe progression after
+  // an organization is already in the population experiencing an attack.
+  const ATTACK_STAGES = [
+    { key: "access", name: "Initial access", baseline: 0.90, influences: { harden: 0.40, isolate: 0.35, detect: 0.15, deceive: 0.10 } },
+    { key: "execution", name: "Execution & persistence", baseline: 0.89, influences: { harden: 0.40, detect: 0.35, isolate: 0.15, model: 0.10 } },
+    { key: "expansion", name: "Expansion & exfiltration", baseline: 0.86, influences: { isolate: 0.30, detect: 0.30, harden: 0.15, deceive: 0.15, model: 0.10 } },
+    { key: "impact", name: "Impact & monetization", baseline: BASE_SUCCESS_PROBABILITY / (0.90 * 0.89 * 0.86), influences: { evict: 0.40, detect: 0.20, isolate: 0.15, harden: 0.15, deceive: 0.10 } }
   ];
 
   const FIXED_COSTS = [
@@ -36,7 +48,7 @@
   function classifyTechnique(id) {
     const name = techniqueName(id);
     if (/Decoy|Honeynet|Honeypot/i.test(name)) return "deceive";
-    if (/Eviction|Deletion|Erasure|Formatting|Shutdown|Reboot|Termination|Suspension|Reissue|Restore|Unlock|Revocation|CacheInvalidation|Excision|Quarantine|Takedown/i.test(name)) return "evict";
+    if (/Eviction|Deletion|Erasure|Formatting|Shutdown|Reboot|Termination|Suspension|Reissue|Restore|Unlock|Revocation|CacheInvalidation|Excision|Quarantine|Takedown|AccountLocking|EmailRemoval/i.test(name)) return "evict";
     if (/Isolation|Filtering|Allowlisting|Denylisting|Mediation|Restriction|EncryptedTunnel|DirectionalNetworkLink|BroadcastDomain|ProcessIsolation|AccessPolicy/i.test(name)) return "isolate";
     if (/Modeling|Mapping|Inventory|Enumeration|Dependency|Topology|Scope|AssetIdentification/i.test(name)) return "model";
     if (/Analysis|Monitoring|Detection|Profiling|Reputation|Thresholding|Verification|Beacon|Carving|Tracking|Comparisons|Anomaly|Inspection|Audit/i.test(name)) return "detect";
@@ -96,23 +108,42 @@
     return (1 - Math.exp(-3 * normalized)) / (1 - Math.exp(-3));
   }
 
-  function probabilityFromProfile(profile, omittedTactic = null) {
+  function probabilityFromProfile(profile, omittedTactic = null, controlEffectiveness = DEFAULT_CONTROL_EFFECTIVENESS) {
     const rows = TACTICS.map(tactic => {
       const count = omittedTactic === tactic.key ? 0 : Number(profile?.tacticCounts?.[tactic.key]) || 0;
       const coverage = tacticCoverage(count, tactic.referenceCount);
       return { ...tactic, count, coverage, weightedCoverage: coverage * tactic.weight };
     });
     const represented = rows.filter(row => row.count > 0).length;
-    const breadthMultiplier = represented === 0 ? 0 : 0.55 + 0.45 * (represented / TACTICS.length);
+    const breadthMultiplier = represented === 0 ? 0 : 0.80 + 0.20 * (represented / TACTICS.length);
     const weightedCoverage = rows.reduce((sum, row) => sum + row.weightedCoverage, 0);
-    const reduction = clamp(MAX_DEFENSE_REDUCTION * weightedCoverage * breadthMultiplier, 0, MAX_DEFENSE_REDUCTION);
+    const quality = clamp(Number(controlEffectiveness) || DEFAULT_CONTROL_EFFECTIVENESS, 0.40, 1);
+    const coverageByTactic = Object.fromEntries(rows.map(row => [row.key, row.coverage]));
+    const stages = ATTACK_STAGES.map(stage => {
+      const pressure = Object.entries(stage.influences).reduce(
+        (sum, [tactic, weight]) => sum + (coverageByTactic[tactic] || 0) * weight,
+        0
+      );
+      const exponent = 1 + DEFENSE_RESPONSE * quality * breadthMultiplier * pressure;
+      return {
+        key: stage.key,
+        name: stage.name,
+        baseline: stage.baseline,
+        pressure,
+        probability: Math.pow(stage.baseline, exponent)
+      };
+    });
+    const probability = stages.reduce((product, stage) => product * stage.probability, 1);
+    const reduction = clamp(1 - probability / BASE_SUCCESS_PROBABILITY, 0, MAX_DEFENSE_REDUCTION);
     return {
-      probability: clamp(BASE_SUCCESS_PROBABILITY * (1 - reduction), 0.05, BASE_SUCCESS_PROBABILITY),
+      probability: clamp(probability, BASE_SUCCESS_PROBABILITY * (1 - MAX_DEFENSE_REDUCTION), BASE_SUCCESS_PROBABILITY),
       represented,
       breadthMultiplier,
       weightedCoverage,
+      controlEffectiveness: quality,
       reduction,
-      rows
+      rows,
+      stages
     };
   }
 
@@ -124,6 +155,7 @@
       customerRecords: clamp(Math.trunc(Number(raw.customerRecords) || 0), 0, 1e10),
       intellectualProperty: normalizeMoney(raw.intellectualProperty),
       otherRevenue: normalizeMoney(raw.otherRevenue),
+      controlEffectiveness: clamp(Number(raw.controlEffectiveness) || DEFAULT_CONTROL_EFFECTIVENESS, 0.40, 1),
       defendProfile: raw.defendProfile || null
     };
   }
@@ -131,7 +163,7 @@
   function calculate(raw) {
     const inputs = normalizeInputs(raw);
     if (!inputs.defendProfile) throw new Error("A D3FEND profile is required.");
-    const probability = probabilityFromProfile(inputs.defendProfile);
+    const probability = probabilityFromProfile(inputs.defendProfile, null, inputs.controlEffectiveness);
     const revenues = [
       { key: "ransom", name: "Ransom", value: inputs.ransom },
       { key: "cash", name: "Cash or cash-equivalent theft", value: inputs.cashTheft },
@@ -148,7 +180,7 @@
 
     const influences = probability.rows.map(row => {
       if (!row.count) return { ...row, probabilityPoints: 0 };
-      const without = probabilityFromProfile(inputs.defendProfile, row.key).probability;
+      const without = probabilityFromProfile(inputs.defendProfile, row.key, inputs.controlEffectiveness).probability;
       return { ...row, probabilityPoints: Math.max(0, without - probability.probability) };
     }).sort((a, b) => b.probabilityPoints - a.probabilityPoints);
 
@@ -165,21 +197,23 @@
       defenseReduction: probability.reduction,
       tacticRows: probability.rows,
       representedTactics: probability.represented,
+      attackStages: probability.stages,
       influences,
       assumptions: [
-        { label: "Baseline attack success", value: "56%", note: "Sophos 2026 conditional encryption rate" },
+        { label: "Conditional baseline", value: "56%", note: "Sophos 2026 encryption rate among organizations attacked" },
+        { label: "Control effectiveness", value: `${Math.round(inputs.controlEffectiveness * 100)}%`, note: "Selected enterprise coverage and operational quality" },
         { label: "Customer-data resale", value: "$7 / record", note: "Peer-reviewed median for compromised online accounts" },
         { label: "Business access", value: "$8,500", note: "Observed access-market average" },
         { label: "RaaS/operator share", value: "25%", note: "Midpoint of the observed 20–30% range" },
-        { label: "Implementation quality", value: "100%", note: "Every selected defense is assumed fully effective as implemented" },
         { label: "Monetization probability", value: "Not discounted", note: "All entered value is treated as extractable after success" }
       ]
     };
   }
 
   return {
-    MODEL_VERSION, CUSTOMER_RECORD_VALUE, BASE_SUCCESS_PROBABILITY, MAX_DEFENSE_REDUCTION, RAAS_SHARE,
-    TACTICS, FIXED_COSTS, classifyTechnique, parseD3fendProfile, tacticCoverage,
+    MODEL_VERSION, CUSTOMER_RECORD_VALUE, BASE_SUCCESS_PROBABILITY, MAX_DEFENSE_REDUCTION,
+    DEFAULT_CONTROL_EFFECTIVENESS, DEFENSE_RESPONSE, RAAS_SHARE,
+    TACTICS, ATTACK_STAGES, FIXED_COSTS, classifyTechnique, parseD3fendProfile, tacticCoverage,
     probabilityFromProfile, normalizeInputs, calculate
   };
 });

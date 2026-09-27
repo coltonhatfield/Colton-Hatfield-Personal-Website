@@ -25,7 +25,8 @@ function getInputs() {
   return {
     ransom: inputNumber("ransom"), cashTheft: inputNumber("cashTheft"),
     customerRecords: inputNumber("customerRecords"), intellectualProperty: inputNumber("intellectualProperty"),
-    otherRevenue: inputNumber("otherRevenue"), defendProfile: loadedProfile
+    otherRevenue: inputNumber("otherRevenue"), controlEffectiveness: inputNumber("controlEffectiveness") / 100,
+    defendProfile: loadedProfile
   };
 }
 
@@ -60,6 +61,12 @@ function renderInfluence(result) {
   }).join("") : `<div class="sensitivity-item"><span>No credited techniques</span><strong>0.0 pts</strong><small>The uploaded profile contains no checked D3FEND techniques.</small></div>`;
 }
 
+function renderStages(result) {
+  el("stageList").innerHTML = result.attackStages.map(stage =>
+    `<div class="stage-row"><span>${escapeHtml(stage.name)}</span><div class="stage-track"><div class="stage-fill" style="width:${stage.probability * 100}%"></div></div><output>${percent(stage.probability, 0)}</output></div>`
+  ).join("");
+}
+
 function renderAssumptions(result) {
   el("assumptionList").innerHTML = result.assumptions.map(item =>
     `<div><span>${item.label}</span><strong>${item.value}</strong><small>${item.note}</small></div>`
@@ -87,7 +94,7 @@ function render() {
     : `The scenario has an estimated ${money(Math.abs(result.profit))} expected shortfall for the attacker.`;
   el("profitValue").textContent = money(result.profit);
   el("successValue").textContent = percent(result.successProbability, 1);
-  el("successDetail").textContent = `${percent(result.defenseReduction, 0)} modeled reduction from the 56% baseline`;
+  el("successDetail").textContent = `${percent(result.defenseReduction, 0)} modeled reduction from the 56% conditional baseline`;
   el("valueValue").textContent = money(result.totalValue);
   el("expectedRevenueValue").textContent = money(result.expectedRevenue);
   el("attackCostValue").textContent = money(result.totalCost);
@@ -95,6 +102,7 @@ function render() {
   renderBar("revenueBar", "revenueLegend", result.revenues, REVENUE_COLORS);
   renderBar("costBar", "costLegend", result.costs, COST_COLORS);
   renderCoverage(result);
+  renderStages(result);
   renderInfluence(result);
   renderAssumptions(result);
 }

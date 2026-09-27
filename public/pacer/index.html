@@ -40,6 +40,7 @@
             <p class="field-help">In MITRE D3FEND, complete the matrix for defenses that are fully and successfully implemented, then export and upload the JSON profile. PACER reads checked layers and techniques only.</p>
             <label class="profile-upload" for="defendProfileFile">Upload D3FEND profile JSON<input id="defendProfileFile" type="file" accept=".json,application/json"></label>
             <div id="defendProfileStatus" class="profile-status" role="status" aria-live="polite">No profile uploaded. A complete profile is required to calculate a result.</div>
+            <label>Control effectiveness and enterprise coverage<select id="controlEffectiveness"><option value="60">Limited — 60%</option><option value="75" selected>Typical — 75%</option><option value="90">Strong — 90%</option><option value="100">Independently verified — 100%</option></select><small class="input-note">Accounts for incomplete rollout, configuration quality, alert handling, and whether controls cover the assets an attacker reaches.</small></label>
             <p class="field-help profile-caveat">D3FEND catalogs defensive techniques but does not score their effectiveness. PACER's probability reduction is an explicit, assumption-driven model calibrated to observed ransomware outcomes.</p>
           </fieldset>
         </form>
@@ -51,7 +52,7 @@
         <div id="calculatedResult" hidden>
           <article id="verdictCard" class="verdict-card"><div><p id="verdictLabel">—</p><h2 id="verdictText">—</h2><span id="verdictExplanation">—</span></div><div class="profit-figure"><span>Expected attacker profit</span><strong id="profitValue">—</strong><small>expected revenue minus total attack cost</small></div></article>
           <div class="metric-grid economics-grid">
-            <article class="metric"><p>Probability of success</p><strong id="successValue">—</strong><span id="successDetail">—</span></article>
+            <article class="metric"><p>Conditional success probability</p><strong id="successValue">—</strong><span id="successDetail">—</span></article>
             <article class="metric"><p>Total monetizable value</p><strong id="valueValue">—</strong><span>available after a successful attack</span></article>
             <article class="metric featured"><p>Expected attacker revenue</p><strong id="expectedRevenueValue">—</strong><span>value × probability of success</span></article>
             <article class="metric"><p>Total attack cost</p><strong id="attackCostValue">—</strong><span>fixed resources + expected variable costs</span></article>
@@ -60,9 +61,10 @@
             <article class="chart-card wide"><div class="card-title"><div><span class="step">03</span><h3>Revenue breakdown</h3></div><span>gross monetizable value</span></div><div id="revenueBar" class="pacer-bar" aria-label="Attacker revenue breakdown"></div><div id="revenueLegend" class="legend"></div></article>
             <article class="chart-card"><div class="card-title"><div><span class="step">04</span><h3>Attack cost</h3></div><span>observed anchors + labeled assumptions</span></div><div id="costBar" class="pacer-bar" aria-label="Attacker cost breakdown"></div><div id="costLegend" class="legend compact-legend"></div></article>
             <article class="chart-card"><div class="card-title"><div><span class="step">05</span><h3>D3FEND coverage</h3></div><span id="profileSummary">—</span></div><div id="coverageList" class="coverage-list"></div></article>
+            <article class="chart-card wide"><div class="card-title"><div><span class="step">05A</span><h3>Attack-path progression</h3></div><span>conditional probability at each stage</span></div><div id="stageList" class="stage-chart"></div></article>
           </div>
           <article class="recommendations sensitivity-card"><div class="card-title"><div><span class="step">06</span><h3>Most influential defenses</h3></div><span>modeled reduction in success probability</span></div><div id="influenceGrid" class="sensitivity-grid"></div></article>
-          <article class="assumptions-card"><div class="card-title"><div><span class="step">07</span><h3>Key assumptions</h3></div><span>fixed and not user-editable</span></div><div id="assumptionList" class="assumption-list"></div></article>
+          <article class="assumptions-card"><div class="card-title"><div><span class="step">07</span><h3>Key assumptions</h3></div><span>inputs and model boundaries</span></div><div id="assumptionList" class="assumption-list"></div></article>
         </div>
       </section>
     </section>
@@ -74,8 +76,8 @@
     <div class="dialog-head"><div><p class="eyebrow">Model card</p><h2>How PACER calculates profitability</h2></div><button class="close-dialog" aria-label="Close">×</button></div>
     <div class="dialog-body">
       <section><h3>Core equations</h3><code>Total value = ransom + accessible cash + (customer records × $7) + intellectual property + other revenue</code><code>Expected revenue = total value × probability of attack success</code><code>Attack cost = fixed operating cost + RaaS/operator share + expected enforcement cost</code><code>Expected profit = expected revenue − attack cost</code></section>
-      <section><h3>Success probability</h3><p>The model starts at 56%, the share of surveyed 2026 ransomware attacks that encrypted data among organizations that were attacked. Checked D3FEND techniques receive diminishing credit within Model, Harden, Detect, Isolate, Deceive, and Evict. Breadth across tactics matters, so stacking many techniques in one area cannot substitute for defense in depth.</p></section>
-      <section><h3>D3FEND boundary</h3><p>MITRE explicitly states that D3FEND does not prescribe, prioritize, or characterize the effectiveness of countermeasures. PACER therefore treats the tactic weights and probability reductions as transparent scenario assumptions. It assumes every checked technique is fully and successfully implemented.</p></section>
+      <section><h3>Conditional success probability</h3><p>The model starts at 56%, the share of surveyed 2026 ransomware attacks that encrypted data among organizations that were attacked. It decomposes that baseline into initial access, execution and persistence, expansion and exfiltration, and impact and monetization. D3FEND tactics affect only relevant stages, receive diminishing credit, and gain a modest defense-in-depth benefit from breadth.</p></section>
+      <section><h3>D3FEND boundary</h3><p>MITRE explicitly states that D3FEND does not prescribe, prioritize, or characterize countermeasure effectiveness. PACER therefore exposes a control-effectiveness setting for deployment scope and operating quality. The result is conditional on an attack occurring and is not an annual probability that the organization will be attacked.</p></section>
       <section><h3>Economic boundary</h3><p>The calculator estimates gross value available to a criminal organization. It ignores separate monetization probabilities, as specified for this first version. Defender recovery costs, downtime, and reputational harm are intentionally excluded because they are not attacker revenue.</p></section>
       <section><h3>Privacy</h3><p>There is no account, analytics, backend request, storage, export, or share function. Uploaded JSON is parsed in browser memory and disappears when the page is closed or reset.</p></section>
     </div>
