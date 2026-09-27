@@ -1,88 +1,113 @@
-# PACER model card
+# PACER model card — 2026.09.6
 
-Model version: 2026.09.5
+This release corrects accounting and defensive-profile interpretation without adding input fields or changing the visual design. It is a deterministic, offline scenario model, **not a validated company-specific forecast**. Changes improve internal validity; predictive accuracy cannot be established from three illustrative profiles without observed attack outcomes.
 
-PACER is an anonymous, client-side scenario calculator for one question: is a financially motivated cyberattack economically profitable?
+## Evidence and what it actually measures
 
-## Equations
+Sources checked September 2026:
 
-```text
-total monetizable value =
-  ransom
-  + accessible cash or cash-equivalent funds
-  + customer records × $7
-  + intellectual property value
-  + other monetizable value
+| Source | Observation | How PACER uses it / limitation |
+|---|---|---|
+| [Sophos State of Ransomware 2026](https://www.sophos.com/en-us/blog/sophos-state-of-ransomware-2026) | 56% encryption among surveyed ransomware victims; 48% of encrypted victims paid | Impact reference and payment reference. Neither measures all attacks, an undefended company, or causal control efficacy. |
+| [MITRE ontology](https://d3fend.mitre.org/resources/ontology/) and [FAQ](https://d3fend.mitre.org/faq/) | Technique hierarchy and tactics; no effectiveness estimates | Official technique classification, never effectiveness scores. |
+| [Nurmi et al., ARES 2023](https://arxiv.org/abs/2306.15726) | $7 median **asking price for compromised online accounts** | Retained as a proxy ceiling, not a universal customer-record sale price. Generic records can be substantially less valuable. |
+| [Trend Micro, December 2021](https://newsroom.trendmicro.com/2021-12-01-Thriving-Access-as-a-Service-Cybercrime-Market-Fuels-Ransomware-Attacks) | Approximately $8,500 average business administrative-access price | Dated asking-price anchor for one access-broker scenario, not current typical acquisition cost for all attackers. |
+| [Existing congressional reference](https://www.govinfo.gov/content/pkg/CHRG-118hhrg56438/pdf/CHRG-118hhrg56438.pdf) | Previous project cites a 20–30% developer share | 25% retained as an assumed affiliate commission. The PDF could not be independently re-fetched during this review; not treated as newly verified. |
 
-expected attacker revenue = total monetizable value × probability of attack success
+The local Phase 1 paper and project PDF were read. The earlier PDF deliberately omitted monetization for simplicity; this release revises that simplification in response to the request for greater accuracy. `PacerThoughts.docx` is not a valid ZIP/Word container and could not be read.
 
-total attack cost =
-  preparation
-  + access acquisition
-  + tools and infrastructure
-  + labor
-  + specialist services
-  + operational overhead
-  + monetization / RaaS share
-  + expected detection or apprehension cost
+## Taxonomy and profile ingestion
 
-expected attacker profit = expected attacker revenue − total attack cost
-```
+`d3fend-catalog.js` contains 271 named techniques derived from MITRE D3FEND 1.6.0. `build-catalog.py` regenerates it from the retained JSON-LD snapshot; the generated catalog records the source URL and SHA-256. There is no live ontology request when the site runs.
 
-The result is profitable only when expected profit is greater than zero. Monetization probability after a successful attack is intentionally not modeled in this version.
+Only selected layers and their reachable children are traversed. Explicit `checked:false` on either a layer or technique suppresses credit. Exports omitting technique-level `checked` are supported because membership in a selected layer is the native export representation. Duplicate names, case variants and D3 short IDs collapse to one technique. Cycles terminate. Missing selected/child layers and malformed lists fail clearly. Unknown IDs receive no credit and are counted in the existing assumptions panel. Invalid profile selection does not silently select the first profile.
 
-## Revenue anchors
+MITRE distinguishes Restore from Evict. Both appear in the existing sixth display row, labeled **Evict / Restore**, but remain distinct internally. Permissions now map to Isolate, not a catch-all Harden classification. All 223 unique techniques in the supplied full export are recognized.
 
-- Ransom, accessible cash, intellectual property, and other revenue are entered directly by the user.
-- Customer-data resale uses $7 per affected customer. This is the median asking price for a compromised online account in Nurmi, Niemelä, and Brumley, “Malware Finances and Operations,” ARES 2023, DOI 10.1145/3600160.3605047. The paper found 91% of account prices between $1 and $30.
+## Defensive effects
 
-## Success probability
+Effectiveness coefficients are explicitly assumed. They are not trained on the three example companies or inferred from their names. Every family has an auditable four-stage vector in `FAMILY_EFFECTS`; individual relative strengths are in `STRENGTHS`. The default strength is 0.65 for a specific technique and 0.35 for a broad family selection. Important exceptions include password-only authentication 0.10, MFA 0.85, patching 0.85, basic network filtering 0.40 and segmentation 0.80. These relative judgments require future empirical validation.
 
-The conditional baseline is 56%, taken from Sophos State of Ransomware 2026: 56% of attacks against the surveyed organizations hit by ransomware encrypted data. This is not an annual probability that a randomly selected company will be attacked.
-
-The uploaded D3FEND profile is divided into six tactics: Model, Harden, Detect, Isolate, Deceive, and Evict. Each tactic receives diminishing credit as techniques are added. The reference technique counts are derived from `d3fend-profile-all-selected.json`.
-
-The 56% conditional baseline is decomposed into four sequential stages whose probabilities multiply to 56%: initial access, execution and persistence, expansion and exfiltration, and impact and monetization. Each D3FEND tactic affects only the stages where it is relevant. For example, Harden and Isolate have the largest effect on initial access, while Evict has its largest effect on impact and monetization.
+Within a family, only the maximum selected strength contributes. Adding a parent alongside a stronger child, duplicate controls, or equivalent variants cannot compound credit. This conservative treatment may under-credit genuinely complementary techniques within a family. Across families, stage saturation limits overlapping benefits. Unrelated physical/OT controls receive no prevention credit for the generic remote enterprise scenario.
 
 ```text
-tactic coverage = (1 − exp(−3 × min(selected/reference, 1))) / (1 − exp(−3))
-breadth factor = 0.80 + 0.20 × represented tactics / 6
-stage defense pressure = Σ(tactic coverage × stage-specific relevance)
-stage probability = stage baseline ^ (1 + 3 × control effectiveness × breadth factor × stage defense pressure)
-conditional success probability = product of the four stage probabilities
+family strength = max(selected technique strengths in family)
+response strength = max(credential, object, process eviction strengths)
+detect/deceive actionability = 0.25 + 0.75 × response strength × quality
+stage pressure = sum(family strength × stage coefficient × actionability)
+stage probability = stage baseline × [1 − 0.40 × quality × (1 − exp(−defenseScale × pressure))]
+path probability = product(conditional stage probabilities)
 ```
 
-The six tactic weights sum to one:
+Actionability is one for other families. Detection alone receives limited credit; combining detection with response increases it. The 40% maximum reduction at each stage prevents a catalog of controls from implying certainty of prevention. This bound is a modeling choice, not an empirical efficacy estimate. The existing quality selector applies operational coverage once to direct defense pressure; response dependency also reflects response quality.
 
-- Model 0.08
-- Harden 0.27
-- Detect 0.26
-- Isolate 0.17
-- Deceive 0.07
-- Evict 0.15
+The four reference stages are 0.90, 0.89, 0.86 and 0.56/(0.90×0.89×0.86). They multiply to 0.56. **Only that aggregate encryption observation is sourced; the stage decomposition and its transfer to a scenario are assumptions.** In particular, Sophos did not measure an initial-access success probability or an undefended counterfactual. No-controls returns the reference as a convention, not a measured no-controls rate. The display therefore calls this conditional **impact**, not universal attack or collection success.
 
-At the default 75% control-effectiveness setting, the fully selected reference profile produces a 15.2% modeled conditional success probability. The setting can be changed from 60% for limited deployment to 100% for independently verified enterprise-wide operation. These reductions and stage allocations are PACER assumptions. MITRE states that D3FEND does not prescribe, prioritize, or characterize countermeasure effectiveness.
+RestoreObject controls reduce ransom collection through an assumed recovery adjustment. They never retroactively reduce encryption or stolen data. RestoreAccess alone does not establish a usable data backup and earns no ransom reduction. Missing a tactic does not incur a discontinuous breadth penalty. Marginal tactic influences are leave-one-tactic-out changes, not additive attributions or ROI recommendations.
 
-## Cost ledger
+## Revenue and monetization
 
-| Component | Value | Basis |
-|---|---:|---|
-| Preparation | $1,250 | PACER assumption |
-| Access acquisition | $8,500 | Trend Micro observed average for business access with administrative credentials |
-| Tools and infrastructure | $650 | Published criminal-service prices plus PACER infrastructure allowance |
-| Labor | $10,000 | PACER assumption |
-| Specialist services | $2,500 | PACER assumption |
-| Operational overhead | $1,000 | PACER assumption |
-| Monetization / RaaS share | 25% of expected revenue | Midpoint of the 20–30% developer/operator share described in a U.S. House hearing record |
-| Expected detection or apprehension | $2,500 | PACER assumption: 1% × $250,000 consequence |
+The inputs are unchanged and remain maximum distinct amounts available. Do not enter the same stolen funds under multiple channels, or combine mutually exclusive resale and ransom promises as if both are assured.
 
-## Boundaries
+| Channel | Technical prerequisite | Realization fraction after prerequisite |
+|---|---|---:|
+| Ransom | Full impact path | 0.48 × (1 − 0.35 × recovery strength × quality) |
+| Cash theft | Through execution stage | 0.75 |
+| Customer data | Through expansion/data-access stage | 0.35 |
+| IP | Through expansion/data-access stage | 0.20 |
+| Other | Full path, conservative generic convention | 0.50 |
 
-- Checked D3FEND techniques are credited according to the selected control-effectiveness and enterprise-coverage setting.
-- The percentage is conditional on an organization experiencing a ransomware attack. It is not an annual probability of attack or breach.
-- Public evidence does not support organization-specific precision from D3FEND selections alone; the result is a transparent scenario estimate rather than a measured forecast.
-- The model targets economically motivated criminal organizations, not script kiddies or nation states.
-- Defender recovery cost, downtime, liability, and reputational loss are excluded because they are not attacker revenue.
-- The calculator is deterministic and contains no hidden randomness.
-- No inputs or files are transmitted, stored, exported, or shared.
-- The result is an assumption-driven estimate, not a guarantee, certification, actuarial model, or organization-specific security assessment.
+Only the 0.48 ransomware reference is observational, and its transfer to this company is still assumed. All other realization fractions and the recovery coefficient are explicit scenario assumptions. They jointly represent attainable fraction and successful collection, not separately estimated probabilities. Ransom input means the amount if a payment occurs; no demand-to-payment haircut is added because the input already asks what the company would realistically pay. Applying an external payment fraction may understate a company with firm intent to pay; the sensitivity report explores that uncertainty.
+
+```text
+gross value = ransom + cash + records × $7 + IP + other
+expected channel revenue = gross channel value × channel path probability × realization
+expected revenue = sum(expected channel revenues)
+expected profit = expected revenue − expected total cost
+```
+
+Cash theft and data sale can succeed before encryption, so expected revenue is **not** gross value multiplied by the displayed impact probability. No independence between channels is needed to add their expectations, but values must be distinct. The model does not estimate probability of at least one channel paying or a joint realized-profit distribution.
+
+## Cost accounting
+
+The modeled operator is an affiliate purchasing access and attempting one multi-stage operation, not every criminal archetype. Opportunity costs are included. This is not the combined profit of affiliate plus broker plus RaaS developer; commissions would be internal transfers at that ecosystem boundary.
+
+| Component | Treatment |
+|---|---|
+| Preparation | $1,250 upfront assumption |
+| Access | $8,500 upfront historical proxy |
+| Tools/infrastructure | $650 upfront allowance; separate from RaaS licensing |
+| Labor | Full-path bases $1,500 / $2,500 / $3,500 / $2,500 for the four stages |
+| Specialists | $2,500 base, charged on expansion-stage entry |
+| Overhead | $1,000 base, weighted across stage entry and effort |
+| Monetization | 25% of expected collected ransom; assumed 10% of other collected proceeds |
+| Enforcement | $2,500 unvalidated economic-risk allowance; sensitivity includes zero |
+
+```text
+stage reach = product(probabilities of preceding stages)
+effort multiplier = 1 + 1.5 × quality × (1 − exp(−stage pressure))
+expected stage cost = full-stage base × reach × effort multiplier
+```
+
+Costs are incurred upon stage entry, including failed attempts at that stage. Stronger defenses increase effort conditional on proceeding but can reduce total expected spend through early failure. A lower total cost for a protected organization is not proof that bypassing its defenses is cheaper. Detection is not equated with law-enforcement apprehension; the enforcement allowance is not automatically inflated by sensors.
+
+## Uncertainty
+
+The existing assumptions panel shows the min/max profit across a reproducible **64-scenario grid plus the central estimate**. The backend also returns revenue, cost and impact ranges. Each of six groups takes two values:
+
+1. Aggregate reference: 0.45 / 0.65.
+2. Defense pressure scale: 0.5 / 1.5.
+3. Collection assumptions: ransom 0.30 / 0.70; cash 0.40 / 1.00; data 0.10 / 0.70; IP 0.05 / 0.50; other 0.20 / 0.80.
+4. Customer-record proxy: $0.10 / $7.
+5. Access/resources: $1,000 / $17,000; other resource scale 0.5 / 2.
+6. Enforcement/recovery: $0 / $10,000; recovery effect 0.10 / 0.60.
+
+These are deliberately broad assumed stress scenarios, **not confidence bounds, a probability distribution, empirically estimated percentiles, or guaranteed extrema**. Several parameters are grouped, and structural alternatives are not covered. The $7 high proxy is not a universal price cap. The binary verdict reflects the central estimate; existing result text explicitly says when the tested assumptions change it.
+
+## Verification and remaining limitations
+
+Run `node model.test.js` for importer, arithmetic, monotonicity, quality, overlap, recovery, channel-fee and numerical-boundary checks. The suite includes more than 1,000 control-addition checks. `browser.test.cjs` checks browser integration using Playwright with installed Edge. `model-report.cjs` regenerates the supplied-profile comparison in `MODEL-VALIDATION.md`.
+
+These tests validate implementation and consistency, not forecasting accuracy. This model still lacks compatible incident-level observations linking checked controls, scope, failed attempts, attacker effort and realized proceeds. It does not infer company size, sector, threat frequency, attack-path choice, attacker adaptation, repeated attempts, true record type, control misconfiguration or payment certainty from absent inputs. A rational attacker may choose a cheaper theft-only path rather than this bundled operation. Recovery after encryption and exfiltration-only extortion are simplified. Enforcement costs remain especially weakly evidenced.
+
+The next empirical improvement should use lawful incident data with failed attempts and known denominators, validate against a held-out cohort, measure calibration/Brier score for defined outcomes, and compare observed resource/proceeds distributions. The illustrative profiles cannot serve as outcome labels. Avoid tuning coefficients merely to force “Highly Secure” to become unprofitable.

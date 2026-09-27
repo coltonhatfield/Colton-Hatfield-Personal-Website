@@ -92,9 +92,12 @@ function render() {
   el("verdictExplanation").textContent = result.profitable
     ? `A financially motivated attacker has an estimated ${money(result.profit)} positive expected return.`
     : `The scenario has an estimated ${money(Math.abs(result.profit))} expected shortfall for the attacker.`;
+  if (result.uncertainty.profit.low <= 0 && result.uncertainty.profit.high > 0) {
+    el("verdictExplanation").textContent += " The profitability verdict changes across the tested assumptions.";
+  }
   el("profitValue").textContent = money(result.profit);
   el("successValue").textContent = percent(result.successProbability, 1);
-  el("successDetail").textContent = `${percent(result.defenseReduction, 0)} modeled reduction from the 56% conditional baseline`;
+  el("successDetail").textContent = `${percent(result.defenseReduction, 0)} modeled reduction from the 56% impact reference`;
   el("valueValue").textContent = money(result.totalValue);
   el("expectedRevenueValue").textContent = money(result.expectedRevenue);
   el("attackCostValue").textContent = money(result.totalCost);
