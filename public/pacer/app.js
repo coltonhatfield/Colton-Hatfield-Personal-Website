@@ -1,152 +1,23 @@
 "use strict";
-
-const { MODEL_VERSION, TACTICS, parseD3fendProfile, calculate } = window.PacerModel;
-const REVENUE_COLORS = ["#ee735e", "#2f72ff", "#5de4c7", "#8267d6", "#f0b44d"];
-const COST_COLORS = ["#2f72ff", "#5de4c7", "#8267d6", "#ee735e", "#f0b44d", "#7a8f8b", "#b65f94", "#23464b"];
-let loadedProfile = null;
-let renderTimer = null;
-
-function el(id) { return document.getElementById(id); }
-function inputNumber(id) { return Number(el(id).value) || 0; }
-function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" })[character]);
-}
-function money(value) {
-  const absolute = Math.abs(value);
-  const sign = value < 0 ? "−" : "";
-  if (absolute >= 1e9) return `${sign}$${(absolute / 1e9).toFixed(absolute >= 1e10 ? 1 : 2)}B`;
-  if (absolute >= 1e6) return `${sign}$${(absolute / 1e6).toFixed(absolute >= 1e7 ? 1 : 2)}M`;
-  if (absolute >= 1e3) return `${sign}$${Math.round(absolute / 1e3).toLocaleString()}k`;
-  return `${sign}$${Math.round(absolute).toLocaleString()}`;
-}
-function percent(value, digits = 1) { return `${(value * 100).toFixed(digits)}%`; }
-
-function getInputs() {
-  return {
-    ransom: inputNumber("ransom"), cashTheft: inputNumber("cashTheft"),
-    customerRecords: inputNumber("customerRecords"), intellectualProperty: inputNumber("intellectualProperty"),
-    otherRevenue: inputNumber("otherRevenue"), controlEffectiveness: inputNumber("controlEffectiveness") / 100,
-    defendProfile: loadedProfile
-  };
-}
-
-function setProfileStatus(message, state = "") {
-  const node = el("defendProfileStatus");
-  node.className = `profile-status ${state}`.trim();
-  node.textContent = message;
-}
-
-function renderBar(barId, legendId, items, colors) {
-  const total = items.reduce((sum, item) => sum + item.value, 0);
-  el(barId).innerHTML = total > 0 ? items.map((item, index) =>
-    `<div class="pacer-segment" style="width:${item.value / total * 100}%;background:${colors[index]}" title="${escapeHtml(item.name)}: ${money(item.value)}"></div>`
-  ).join("") : `<div class="pacer-segment empty-segment" style="width:100%"></div>`;
-  el(legendId).innerHTML = items.map((item, index) =>
-    `<div class="legend-item"><span><i style="background:${colors[index]}"></i>${escapeHtml(item.name)}</span><strong>${money(item.value)}</strong>${item.evidence ? `<small>${escapeHtml(item.evidence)}</small>` : ""}</div>`
-  ).join("");
-}
-
-function renderCoverage(result) {
-  el("profileSummary").textContent = `${result.inputs.defendProfile.techniqueCount} techniques · ${result.representedTactics}/6 tactics`;
-  el("coverageList").innerHTML = result.tacticRows.map(row =>
-    `<div class="coverage-row"><div><span>${row.name}</span><strong>${row.count} techniques</strong></div><div class="coverage-track"><i style="width:${row.coverage * 100}%"></i></div><small>${percent(row.coverage, 0)} modeled coverage</small></div>`
-  ).join("");
-}
-
-function renderInfluence(result) {
-  const top = result.influences.filter(item => item.probabilityPoints > 0).slice(0, 3);
-  el("influenceGrid").innerHTML = top.length ? top.map(item => {
-    const examples = result.inputs.defendProfile.techniquesByTactic[item.key].slice(0, 3).join(", ");
-    return `<div class="sensitivity-item"><span>${escapeHtml(item.name)}</span><strong class="positive">−${percent(item.probabilityPoints, 1)} pts</strong><small>${item.count} techniques${examples ? ` · ${escapeHtml(examples)}` : ""}</small></div>`;
-  }).join("") : `<div class="sensitivity-item"><span>No credited techniques</span><strong>0.0 pts</strong><small>The uploaded profile contains no checked D3FEND techniques.</small></div>`;
-}
-
-function renderStages(result) {
-  el("stageList").innerHTML = result.attackStages.map(stage =>
-    `<div class="stage-row"><span>${escapeHtml(stage.name)}</span><div class="stage-track"><div class="stage-fill" style="width:${stage.probability * 100}%"></div></div><output>${percent(stage.probability, 0)}</output></div>`
-  ).join("");
-}
-
-function renderAssumptions(result) {
-  el("assumptionList").innerHTML = result.assumptions.map(item =>
-    `<div><span>${item.label}</span><strong>${item.value}</strong><small>${item.note}</small></div>`
-  ).join("");
-}
-
-function render() {
-  if (!loadedProfile) {
-    el("emptyResult").hidden = false;
-    el("calculatedResult").hidden = true;
-    el("assessmentState").textContent = "Awaiting D3FEND profile";
-    return;
-  }
-  const result = calculate(getInputs());
-  el("emptyResult").hidden = true;
-  el("calculatedResult").hidden = false;
-  el("assessmentState").textContent = "Calculated locally";
-
-  const verdict = result.profitable ? "PROFITABLE" : "UNPROFITABLE";
-  el("verdictCard").className = `verdict-card ${result.profitable ? "profitable" : "unprofitable"}`;
-  el("verdictLabel").textContent = result.profitable ? "Expected return exceeds cost" : "Expected cost meets or exceeds return";
-  el("verdictText").textContent = verdict;
-  el("verdictExplanation").textContent = result.profitable
-    ? `A financially motivated attacker has an estimated ${money(result.profit)} positive expected return.`
-    : `The scenario has an estimated ${money(Math.abs(result.profit))} expected shortfall for the attacker.`;
-  if (result.uncertainty.profit.low <= 0 && result.uncertainty.profit.high > 0) {
-    el("verdictExplanation").textContent += " The profitability verdict changes across the tested assumptions.";
-  }
-  el("profitValue").textContent = money(result.profit);
-  el("successValue").textContent = percent(result.successProbability, 1);
-  el("successDetail").textContent = `${percent(result.defenseReduction, 0)} modeled reduction from the 56% impact reference`;
-  el("valueValue").textContent = money(result.totalValue);
-  el("expectedRevenueValue").textContent = money(result.expectedRevenue);
-  el("attackCostValue").textContent = money(result.totalCost);
-
-  renderBar("revenueBar", "revenueLegend", result.revenues, REVENUE_COLORS);
-  renderBar("costBar", "costLegend", result.costs, COST_COLORS);
-  renderCoverage(result);
-  renderStages(result);
-  renderInfluence(result);
-  renderAssumptions(result);
-}
-
-async function loadProfile(event) {
-  const file = event.target.files?.[0];
-  if (!file) return;
-  if (file.size > 10 * 1024 * 1024) {
-    setProfileStatus("The profile is larger than 10 MB. Export a smaller D3FEND profile and try again.", "error");
-    event.target.value = "";
-    return;
-  }
-  try {
-    loadedProfile = parseD3fendProfile(JSON.parse(await file.text()));
-    setProfileStatus(`${loadedProfile.profileName} · ${loadedProfile.selectedLayerCount} selected layers · ${loadedProfile.techniqueCount} checked techniques`, "loaded");
-    render();
-  } catch (error) {
-    loadedProfile = null;
-    setProfileStatus(error instanceof SyntaxError ? "That file is not valid JSON." : error.message, "error");
-    render();
-  }
-  event.target.value = "";
-}
-
-function reset() {
-  el("modelForm").reset();
-  loadedProfile = null;
-  el("defendProfileFile").value = "";
-  setProfileStatus("No profile uploaded. A complete profile is required to calculate a result.");
-  render();
-}
-
-function setupDialogs() {
-  document.querySelectorAll("[data-dialog]").forEach(button => button.addEventListener("click", () => el(`${button.dataset.dialog}Dialog`).showModal()));
-  document.querySelectorAll(".close-dialog").forEach(button => button.addEventListener("click", () => button.closest("dialog").close()));
-  document.querySelectorAll("dialog").forEach(dialog => dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); }));
-}
-
-el("modelVersion").textContent = MODEL_VERSION;
-el("defendProfileFile").addEventListener("change", loadProfile);
-el("modelForm").addEventListener("input", () => { clearTimeout(renderTimer); renderTimer = setTimeout(render, 60); });
-el("resetBtn").addEventListener("click", reset);
-setupDialogs();
-render();
+const {parseD3fendProfile}=window.PacerModel;
+const {VERSION,analyze}=window.PacerPaths;
+const catalog=window.PacerCatalog;
+let loadedProfile=null,latest=null,timer=null;
+const el=id=>document.getElementById(id);
+const num=id=>Number(el(id).value)||0;
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c]);
+function money(n){let s=n<0?"−":"",v=Math.abs(n);return s+"$"+(v>=1e9?(v/1e9).toFixed(2)+"B":v>=1e6?(v/1e6).toFixed(2)+"M":v>=1e3?Math.round(v/1e3).toLocaleString()+"k":Math.round(v).toLocaleString());}
+const pct=n=>(n*100).toFixed(1)+"%";
+const code=name=>catalog.techniques[name]?.code||"D3FEND";
+const label=name=>name.replace(/([a-z])([A-Z])/g,"$1 $2");
+function inputs(){return {ransom:num("ransom"),cashTheft:num("cashTheft"),customerRecords:num("customerRecords"),intellectualProperty:num("intellectualProperty"),otherRevenue:num("otherRevenue"),controlEffectiveness:num("controlEffectiveness")/100,defendProfile:loadedProfile,surfaces:{remote:el("surfaceRemote").checked,email:el("surfaceEmail").checked,web:el("surfaceWeb").checked}};}
+function defense(d){return `<li><b>${d.selected?"In profile":"Candidate"}</b> ${esc(d.name)} · <a href="https://attack.mitre.org/mitigations/${d.mitigation}/" target="_blank" rel="noreferrer">${d.mitigation}</a> → ${esc(code(d.defend))} ${esc(label(d.defend))}</li>`;}
+function pathCard(p,i){const max=Math.max(1,...latest.candidates.map(x=>x.profit)),width=Math.max(2,Math.min(100,p.profit/max*100));return `<article class="attack-path"><div class="path-heading"><div><span class="path-rank">#${i+1} · ${esc(p.goal.toUpperCase())}</span><h3>${esc(p.name)}</h3></div><strong>${money(p.profit)}<small>expected profit</small></strong></div><div class="roi-track"><span style="width:${width}%"></span></div><div class="path-metrics"><div><small>Modeled full-path reach</small><b>${pct(p.probability)}</b></div><div><small>Payout if reached</small><b>${money(p.payout)}</b></div><div><small>Expected payout</small><b>${money(p.expectedRevenue)}</b></div><div><small>Expected cost</small><b>${money(p.totalCost)}</b></div></div><div class="attack-flow" aria-label="ATT&CK technique path">${p.steps.map((s,j)=>`${j?'<span class="flow-arrow" aria-hidden="true">→</span>':''}<div class="flow-node"><span>${j+1}</span><a href="https://attack.mitre.org/techniques/${s.id.replace(".","/")}/" target="_blank" rel="noreferrer">${s.id}</a><b>${esc(s.name)}</b><small>${pct(s.cumulativeProbability)} reach</small></div>`).join("")}</div><details class="path-details"><summary>View costs, mitigations and D3FEND techniques</summary><div class="cost-chips">${p.resource.map(r=>`<span>${esc(r.name)} <b>${money(r.amount)}</b> <small>${esc(r.source)}</small></span>`).join("")}<span>Reach-weighted labor <b>${money(p.costs.labor)}</b> <small>$250/stage assumption</small></span><span>Collection fees <b>${money(p.costs.collectionFee)}</b> <small>assumption</small></span></div><p>Technique/defense alignment is a curated scenario, not a direct one-to-one MITRE mapping. Selected means present in the profile, not verified effective.</p>${p.steps.map(s=>`<details class="step-detail"><summary>${s.id} · ${esc(s.name)} <b>${pct(s.conditionalPass)} modeled pass</b></summary><ul>${s.defenses.length?s.defenses.map(defense).join(""):"<li>Outcome label only; collection chance is included in payout assumptions.</li>"}</ul></details>`).join("")}</details></article>`;}
+function controlCard(c,i){return `<div class="control-row"><span class="control-rank">0${i+1}</span><div><h4>${esc(c.name)}</h4><small><a href="https://attack.mitre.org/mitigations/${c.mitigation}/" target="_blank" rel="noreferrer">${c.mitigation}</a> → ${esc(code(c.defend))} ${esc(label(c.defend))} · touches ${c.affected} paths</small></div><strong>−${money(c.reduction)}<small>best-path profit</small></strong></div>`;}
+function render(){if(!loadedProfile){latest=null;el("emptyResult").hidden=false;el("calculatedResult").hidden=true;el("assessmentState").textContent="Awaiting D3FEND profile";return;}latest=analyze(inputs());el("emptyResult").hidden=true;el("calculatedResult").hidden=false;el("assessmentState").textContent=`${loadedProfile.techniqueCount} D3FEND techniques evaluated`;el("pathHeadline").textContent=latest.profitable.length?`${latest.profitable.length} profitable path${latest.profitable.length===1?"":"s"} remain`:"No modeled path is profitable";el("pathSubhead").textContent=`${latest.evaluatedCount} curated paths matched the selected attack surfaces. Showing up to five positive-return paths in descending expected profit.`;el("bestProfit").textContent=money(latest.bestProfit);el("pathCount").textContent=`${latest.top.length} of ${latest.evaluatedCount} paths shown · ${loadedProfile.profileName}`;el("pathList").innerHTML=latest.top.length?latest.top.map(pathCard).join(""):`<div class="no-paths">No positive-return path under these inputs. This is not proof of immunity; expand the path library and validate the environment.</div>`;el("controlList").innerHTML=latest.recommendations.some(r=>r.reduction>0)?latest.recommendations.map(controlCard).join(""):`<div class="no-paths">No proposed D3FEND technique reduces the highest positive return in this limited path library.</div>`;}
+async function loadProfile(event){const file=event.target.files?.[0];if(!file)return;const status=el("defendProfileStatus");if(file.size>10*1024*1024){status.textContent="Profile exceeds 10 MB.";status.className="profile-status error";event.target.value="";return;}try{loadedProfile=parseD3fendProfile(JSON.parse(await file.text()));status.textContent=`${loadedProfile.profileName} · ${loadedProfile.selectedLayerCount} layers · ${loadedProfile.techniqueCount} checked techniques`;status.className="profile-status loaded";}catch(e){loadedProfile=null;status.textContent=e instanceof SyntaxError?"That file is not valid JSON.":e.message;status.className="profile-status error";}event.target.value="";render();}
+function download(text,mime,name){const url=URL.createObjectURL(new Blob([text],{type:mime})),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function downloadJson(){if(latest)download(JSON.stringify({model:VERSION,created:new Date().toISOString(),inputs:inputs(),result:latest},null,2),"application/json","pacer-attack-paths.json");}
+function downloadCsv(){if(!latest)return;const q=v=>`"${String(v??"").replaceAll('"','""')}"`,rows=[["rank","path","goal","attack_surface","attack_techniques","modeled_path_reach","payout_if_reached","expected_revenue","upfront_cost","labor_cost","collection_fee","total_cost","expected_profit","profitable","mitigations","d3fend_techniques"]];latest.candidates.forEach((p,i)=>{const ds=p.steps.flatMap(s=>s.defenses);rows.push([i+1,p.name,p.goal,p.surface,p.steps.map(s=>s.id).join(" → "),p.probability,p.payout,p.expectedRevenue,p.costs.upfront,p.costs.labor,p.costs.collectionFee,p.totalCost,p.profit,p.profitable,[...new Set(ds.map(d=>d.mitigation))].join("; "),[...new Set(ds.map(d=>code(d.defend)))].join("; ")]);});download(rows.map(r=>r.map(q).join(",")).join("\r\n"),"text/csv","pacer-attack-paths.csv");}
+document.querySelectorAll("[data-dialog]").forEach(b=>b.addEventListener("click",()=>el(`${b.dataset.dialog}Dialog`).showModal()));document.querySelectorAll(".close-dialog").forEach(b=>b.addEventListener("click",()=>b.closest("dialog").close()));document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click",e=>{if(e.target===d)d.close();}));
+el("modelVersion").textContent=VERSION;el("defendProfileFile").addEventListener("change",loadProfile);el("modelForm").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(render,60);});el("resetBtn").addEventListener("click",()=>{el("modelForm").reset();loadedProfile=null;el("defendProfileStatus").textContent="No profile uploaded. A complete profile is required to calculate a result.";el("defendProfileStatus").className="profile-status";render();});el("downloadJson").addEventListener("click",downloadJson);el("downloadCsv").addEventListener("click",downloadCsv);render();
