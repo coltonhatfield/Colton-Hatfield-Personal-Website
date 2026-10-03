@@ -83,6 +83,10 @@ select:hover, input[type="number"]:hover { border-color: #8fa4a1; }
 .scenario-note { padding: 12px 13px; background: #f3f6f5; border-left: 3px solid var(--blue); color: #546568; font-size: 13px; }
 .scenario-note strong { display: block; color: var(--ink); margin-bottom: 3px; }
 .field-help { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+.profile-steps { margin: 0 0 16px; padding-left: 22px; color: var(--ink); font-size: 14px; line-height: 1.5; }
+.profile-steps li + li { margin-top: 7px; }
+.profile-steps a { color: var(--mint-dark); }
+.profile-steps kbd { padding: 1px 5px; border: 1px solid var(--line); border-radius: 4px; background: #f6f8f7; font: inherit; }
 .profile-upload { display: grid; gap: 8px; margin: 12px 0 8px; color: var(--ink); }
 .profile-upload input[type="file"] { width: 100%; padding: 9px; border: 1px dashed #9badab; border-radius: 8px; background: #f6f8f7; color: var(--muted); font-size: 12px; }
 .profile-status { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); background: #f6f8f7; font-size: 12px; overflow-wrap: anywhere; }
@@ -282,7 +286,7 @@ dialog::backdrop { background: rgba(6,23,27,.7); backdrop-filter: blur(3px); }
 /* Attack-path assessment */
 .context-stats { display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin:0 0 20px; }
 .context-stat { border:1px solid var(--line);background:#fff;padding:18px 21px;box-shadow:var(--shadow); }
-.context-stat summary,.context-stat.breakout { display:flex;align-items:center;gap:18px; }
+.context-stat summary,.context-stat.cost-anchor { display:flex;align-items:center;gap:18px; }
 .context-stat summary { list-style:none;cursor:pointer; }
 .context-stat summary::-webkit-details-marker { display:none; }
 .context-stat strong { font-size:38px;line-height:1;color:var(--ink);letter-spacing:-.05em;white-space:nowrap; }
