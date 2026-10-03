@@ -5,7 +5,7 @@
   root.PacerPaths = result;
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
-  const VERSION = "2026.10.paths-1";
+  const VERSION = "2026.10.paths-2";
   const SOURCES = {
     prices: "https://global.ptsecurity.com/en/research/analytics/cybercrime-as-a-service/",
     bridge: "https://d3fend.mitre.org/mappings/attack-mitigations/"
@@ -37,6 +37,9 @@
     recovery: {id:"T1490", name:"Inhibit system recovery", controls:["behavior","endpoint"]},
     encrypt: {id:"T1486", name:"Data encrypted for impact", controls:["endpoint","allowlist","behavior"]},
     email: {id:"T1114", name:"Email collection", controls:["mfa","account"]},
+    forwarding: {id:"T1114.003", name:"Email forwarding rule", controls:["account","behavior"]},
+    repository: {id:"T1213.003", name:"Data from code repositories", controls:["permissions","behavior"]},
+    database: {id:"T1213.006", name:"Data from databases", controls:["permissions","behavior"]},
     theft: {id:"T1657", name:"Financial theft / extortion", controls:[], outcome:true}
   };
   const PATHS = [
@@ -47,7 +50,15 @@
     {id:"phish-ransom",name:"Phishing → ransomware",surface:"email",goal:"ransom",steps:["phishing","execution","remote","encrypt","theft"],resource:[{name:"Phishing panel",amount:150,source:"PT example"},{name:"Ransomware tooling",amount:1000,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
     {id:"web-data",name:"Public-app exploit → data exfiltration",surface:"web",goal:"data",steps:["web","execution","local","exfil"],resource:[{name:"Exploit listing",amount:27500,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
     {id:"web-ransom",name:"Public-app exploit → ransomware",surface:"web",goal:"ransom",steps:["web","execution","remote","encrypt","theft"],resource:[{name:"Exploit listing",amount:27500,source:"PT median"},{name:"Ransomware tooling",amount:1000,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
-    {id:"phish-financial",name:"Phishing → payment diversion",surface:"email",goal:"cash",steps:["phishing","accounts","email","theft"],resource:[{name:"Phishing panel",amount:150,source:"PT example"},{name:"Infrastructure",amount:8,source:"PT median"}]}
+    {id:"phish-financial",name:"Phishing → payment diversion",surface:"email",goal:"cash",steps:["phishing","accounts","email","theft"],resource:[{name:"Phishing panel",amount:150,source:"PT example"},{name:"Infrastructure",amount:8,source:"PT median"}]},
+    {id:"broker-cloud",name:"Purchased access → cloud storage theft",surface:"remote",goal:"data",steps:["accounts","cloud","exfil"],resource:[{name:"Initial access listing",amount:600,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
+    {id:"broker-repository",name:"Purchased access → code repository theft",surface:"remote",goal:"ip",steps:["accounts","repository","exfil"],resource:[{name:"Initial access listing",amount:600,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
+    {id:"broker-financial",name:"Purchased access → payment diversion",surface:"remote",goal:"cash",steps:["accounts","email","theft"],resource:[{name:"Initial access listing",amount:600,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
+    {id:"phish-double",name:"Phishing → data theft and ransomware",surface:"email",goal:"double",steps:["phishing","execution","remote","local","exfil","recovery","encrypt","theft"],resource:[{name:"Phishing panel",amount:150,source:"PT example"},{name:"Ransomware tooling",amount:1000,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
+    {id:"phish-repository",name:"Phishing → code repository theft",surface:"email",goal:"ip",steps:["phishing","accounts","repository","exfil"],resource:[{name:"Phishing panel",amount:150,source:"PT example"},{name:"Infrastructure",amount:8,source:"PT median"}]},
+    {id:"phish-forwarding",name:"Phishing → mailbox forwarding and payment diversion",surface:"email",goal:"cash",steps:["phishing","accounts","forwarding","theft"],resource:[{name:"Phishing panel",amount:150,source:"PT example"},{name:"Infrastructure",amount:8,source:"PT median"}]},
+    {id:"web-database",name:"Public-app exploit → database theft",surface:"web",goal:"data",steps:["web","execution","database","exfil"],resource:[{name:"Exploit listing",amount:27500,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
+    {id:"web-double",name:"Public-app exploit → data theft and ransomware",surface:"web",goal:"double",steps:["web","execution","remote","local","exfil","recovery","encrypt","theft"],resource:[{name:"Exploit listing",amount:27500,source:"PT median"},{name:"Ransomware tooling",amount:1000,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]}
   ];
   function clamp(n,lo,hi) { return Math.max(lo,Math.min(hi,Number(n)||0)); }
   function onePath(template, input, additions) {
@@ -69,7 +80,7 @@
     const customer = clamp(input.customerRecords,0,1e10)*7*.35;
     const dataValue = customer+clamp(input.intellectualProperty,0,1e11)*.2+clamp(input.otherRevenue,0,1e11)*.5;
     const ransomValue = clamp(input.ransom,0,1e11)*.48;
-    const payout = template.goal==="data" ? dataValue : template.goal==="ransom" ? ransomValue : template.goal==="cash" ? clamp(input.cashTheft,0,1e11)*.75 : dataValue+ransomValue;
+    const payout = template.goal==="data" ? dataValue : template.goal==="ip" ? clamp(input.intellectualProperty,0,1e11)*.2 : template.goal==="ransom" ? ransomValue : template.goal==="cash" ? clamp(input.cashTheft,0,1e11)*.75 : dataValue+ransomValue;
     const expectedRevenue = reach*payout;
     const upfront = template.resource.reduce((n,r)=>n+r.amount,0);
     const collectionFee = expectedRevenue*(template.goal==="ransom"?.25:template.goal==="double"?.18:.10);
