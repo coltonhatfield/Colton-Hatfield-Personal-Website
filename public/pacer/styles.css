@@ -286,7 +286,12 @@ dialog::backdrop { background: rgba(6,23,27,.7); backdrop-filter: blur(3px); }
 /* Attack-path assessment */
 .context-stats { display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin:0 0 20px; }
 .context-stat { border:1px solid var(--line);background:#fff;padding:18px 21px;box-shadow:var(--shadow); }
-.context-stat summary,.context-stat.cost-anchor { display:flex;align-items:center;gap:18px; }
+.context-stat summary { display:flex;align-items:center;gap:18px; }
+.context-stat.cost-anchor { display:block; }
+.cost-anchor strong { display:block;margin-bottom:9px; }
+.cost-anchor p { margin:0 0 9px;color:#3a5051;font-size:14px;line-height:1.45; }
+.cost-anchor small { line-height:1.45; }
+.cost-anchor a { display:inline-block;margin-top:10px; }
 .context-stat summary { list-style:none;cursor:pointer; }
 .context-stat summary::-webkit-details-marker { display:none; }
 .context-stat strong { font-size:38px;line-height:1;color:var(--ink);letter-spacing:-.05em;white-space:nowrap; }
