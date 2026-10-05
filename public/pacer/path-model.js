@@ -5,10 +5,11 @@
   root.PacerPaths = result;
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
-  const VERSION = "2026.10.paths-2";
+  const VERSION = "2026.10.paths-3";
   const SOURCES = {
     prices: "https://global.ptsecurity.com/en/research/analytics/cybercrime-as-a-service/",
-    bridge: "https://d3fend.mitre.org/mappings/attack-mitigations/"
+    bridge: "https://d3fend.mitre.org/mappings/attack-mitigations/",
+    ransomwareTiming: "https://cloud.google.com/blog/topics/threat-intelligence/ransomware-attacks-surge-rely-on-public-legitimate-tools"
   };
   // Each defensive pairing below is an ATT&CK mitigation plus a D3FEND technique
   // listed in MITRE's mitigation bridge. It is not a direct 1:1 ATT&CK↔D3FEND edge.
@@ -74,7 +75,7 @@
       const pass = step.outcome?1:.92*(1-reduction);
       if (!step.outcome) labor += entry*250; // Assumption, not a measured criminal wage.
       reach *= pass;
-      return {id:step.id,name:step.name,entryProbability:entry,conditionalPass:pass,cumulativeProbability:reach,
+      return {id:step.id,name:step.name,outcome:Boolean(step.outcome),entryProbability:entry,conditionalPass:pass,cumulativeProbability:reach,
         defenses:step.controls.map(id => ({key:id,...CONTROLS[id],selected:selected.has(CONTROLS[id].defend)}))};
     });
     const customer = clamp(input.customerRecords,0,1e10)*7*.35;
@@ -86,7 +87,8 @@
     const collectionFee = expectedRevenue*(template.goal==="ransom"?.25:template.goal==="double"?.18:.10);
     const costs = {upfront,labor,collectionFee};
     const totalCost = upfront+labor+collectionFee;
-    return {...template,steps,probability:reach,payout,expectedRevenue,costs,totalCost,profit:expectedRevenue-totalCost,
+    const timing=(template.goal==="ransom"||template.goal==="double")?{observedMedianDays:6,from:"initial access",to:"ransomware deployment",year:2023,source:SOURCES.ransomwareTiming,payoutTimeIncluded:false}:null;
+    return {...template,steps,timing,probability:reach,payout,expectedRevenue,costs,totalCost,profit:expectedRevenue-totalCost,
       profitable:expectedRevenue>totalCost};
   }
   function analyze(input) {
