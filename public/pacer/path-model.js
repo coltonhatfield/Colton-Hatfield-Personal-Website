@@ -5,11 +5,12 @@
   root.PacerPaths = result;
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
-  const VERSION = "2026.10.paths-3";
+  const VERSION = "2026.10.paths-4";
   const SOURCES = {
     prices: "https://global.ptsecurity.com/en/research/analytics/cybercrime-as-a-service/",
     bridge: "https://d3fend.mitre.org/mappings/attack-mitigations/",
-    ransomwareTiming: "https://cloud.google.com/blog/topics/threat-intelligence/ransomware-attacks-surge-rely-on-public-legitimate-tools"
+    ransomwareTiming: "https://cloud.google.com/blog/topics/threat-intelligence/ransomware-attacks-surge-rely-on-public-legitimate-tools",
+    redTeamTiming: "https://cloud.google.com/blog/topics/threat-intelligence/m-trends-2024"
   };
   // Each defensive pairing below is an ATT&CK mitigation plus a D3FEND technique
   // listed in MITRE's mitigation bridge. It is not a direct 1:1 ATT&CK↔D3FEND edge.
@@ -87,7 +88,10 @@
     const collectionFee = expectedRevenue*(template.goal==="ransom"?.25:template.goal==="double"?.18:.10);
     const costs = {upfront,labor,collectionFee};
     const totalCost = upfront+labor+collectionFee;
-    const timing=(template.goal==="ransom"||template.goal==="double")?{observedMedianDays:6,from:"initial access",to:"ransomware deployment",year:2023,source:SOURCES.ransomwareTiming,payoutTimeIncluded:false}:null;
+    // These are external reference cohorts, not per-path predictions or summed technique times.
+    const timing=(template.goal==="ransom"||template.goal==="double")
+      ?{label:"6 days",kind:"observed median",from:"initial access",to:"ransomware deployment",year:2023,source:SOURCES.ransomwareTiming,payoutTimeIncluded:false}
+      :{label:"5–7 days",kind:"red-team reference",from:"initial access",to:"red-team objective",year:2024,source:SOURCES.redTeamTiming,payoutTimeIncluded:false};
     return {...template,steps,timing,probability:reach,payout,expectedRevenue,costs,totalCost,profit:expectedRevenue-totalCost,
       profitable:expectedRevenue>totalCost};
   }
@@ -102,7 +106,7 @@
       const afterBest = Math.max(0,...after.map(p=>p.profit));
       return {key,...c,reduction:baselineBest-afterBest,remainingBest:afterBest,affected:candidates.filter(p=>p.steps.some(s=>s.defenses.some(d=>d.key===key))).length};
     }).sort((a,b)=>b.reduction-a.reduction || b.affected-a.affected);
-    return {version:VERSION,candidates,profitable,top:profitable.slice(0,5),recommendations:recommendations.slice(0,3),
+    return {version:VERSION,candidates,profitable,top:profitable.slice(0,3),recommendations:recommendations.slice(0,3),
       evaluatedCount:candidates.length,bestProfit:baselineBest,profileName:input.defendProfile.profileName,
       assumptions:{stepPass:.92,stepLabor:250,recordAskingPrice:7,recordRealization:.35,ransomPayment:.48,
         dataFees:.10,ransomFees:.25,controlQuality:input.controlEffectiveness},sources:SOURCES};
