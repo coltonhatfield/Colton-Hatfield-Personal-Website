@@ -12,7 +12,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Colton Hatfield. Built for Web.
         </p>
         <span className="text-[10px] sm:text-xs font-mono text-[#E0E0E0] uppercase">
-          <a href="mailto:coltonrhatfield@gmail.com" className="hover:text-white transition-colors">coltonrhatfield@gmail.com</a>
+          <a href="mailto:contact@coltonhatfield.com" className="hover:text-white transition-colors">contact@coltonhatfield.com</a>
         </span>
       </div>
 
