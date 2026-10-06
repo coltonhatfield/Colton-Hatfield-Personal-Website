@@ -4,7 +4,7 @@
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (root) root.PacerModel = api;
 })(typeof globalThis !== "undefined" ? globalThis : this, function(catalog) {
-  if (!catalog) throw new Error("PACER requires the bundled D3FEND catalog.");
+  if (!catalog) throw new Error("TRACE requires the bundled D3FEND catalog.");
   const MODEL_VERSION = "2026.09.6";
   const CUSTOMER_RECORD_VALUE = 7; // Account asking-price proxy, not a measured generic-record price.
   const BASE_SUCCESS_PROBABILITY = .56; // Survey encryption outcome, not a no-defense measurement.
@@ -34,7 +34,7 @@
     OperationalActivityMapping: [0,.05,.05,.05], SystemMapping: [.05,.05,.05,.05],
     RestoreAccess: [0,0,0,0], RestoreObject: [0,0,0,0]
   };
-  // Relative strengths are PACER assumptions, never MITRE effectiveness scores.
+  // Relative strengths are TRACE assumptions, never MITRE effectiveness scores.
   const STRENGTHS = {
     PasswordAuthentication: .10, ChangeDefaultPassword: .20, StrongPasswordPolicy: .30,
     "Multi-factorAuthentication": .85, "Certificate-basedAuthentication": .75,
@@ -161,7 +161,7 @@
     // Paid on stage entry, including attempts failing at that stage.
     const resource=(amount,i) => amount*params.resourceScale*stage[i].reachProbability*efforts[i];
     const costs=[
-      {key:"preparation",name:"Preparation",value:1250*params.resourceScale,evidence:"Upfront; PACER assumption"},
+      {key:"preparation",name:"Preparation",value:1250*params.resourceScale,evidence:"Upfront; TRACE assumption"},
       {key:"access",name:"Access acquisition",value:params.accessCost,evidence:"2021 business-admin asking-price anchor; upfront"},
       {key:"tools",name:"Tools & infrastructure",value:650*params.resourceScale,evidence:"Upfront service / infrastructure allowance; assumption"},
       {key:"labor",name:"Labor",value:[1500,2500,3500,2500].reduce((s,v,i) => s+resource(v,i),0),evidence:"Stage reach × effort; $10k full-path base assumption"},

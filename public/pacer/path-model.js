@@ -65,7 +65,7 @@
   ];
   // Planning windows, not measured path-specific averages or probability bounds.
   // The ransomware objective anchor is Mandiant's six-day observed median;
-  // every other component and all payout delays are explicit PACER assumptions.
+  // every other component and all payout delays are explicit TRACE assumptions.
   const TIMING_WINDOWS = {
     data: {objective:[2,10],collection:[7,30],objectiveName:"data theft",collectionName:"data sale"},
     ip: {objective:[2,10],collection:[14,90],objectiveName:"repository theft",collectionName:"buyer/payment"},
@@ -103,8 +103,8 @@
     const timing={label:`${window.objective[0]+window.collection[0]}–${window.objective[1]+window.collection[1]} days`,
       kind:"illustrative access-to-payout window",from:"initial access",to:"attacker payout, if collected",
       objectiveDays:window.objective,collectionDays:window.collection,objectiveName:window.objectiveName,
-      collectionName:window.collectionName,objectiveEvidence:["ransom","double"].includes(template.goal)?"Mandiant 2023 median":"PACER assumption",
-      collectionEvidence:"PACER assumption",source:["ransom","double"].includes(template.goal)?SOURCES.ransomwareTiming:SOURCES.redTeamTiming,
+      collectionName:window.collectionName,objectiveEvidence:["ransom","double"].includes(template.goal)?"Mandiant 2023 median":"TRACE assumption",
+      collectionEvidence:"TRACE assumption",source:["ransom","double"].includes(template.goal)?SOURCES.ransomwareTiming:SOURCES.redTeamTiming,
       payoutTimeIncluded:true};
     return {...template,steps,timing,probability:reach,payout,expectedRevenue,costs,totalCost,profit:expectedRevenue-totalCost,
       profitable:expectedRevenue>totalCost};
