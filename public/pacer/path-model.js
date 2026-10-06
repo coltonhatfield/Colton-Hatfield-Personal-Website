@@ -5,12 +5,13 @@
   root.PacerPaths = result;
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
-  const VERSION = "2026.10.paths-4";
+  const VERSION = "2026.10.paths-5";
   const SOURCES = {
     prices: "https://global.ptsecurity.com/en/research/analytics/cybercrime-as-a-service/",
     bridge: "https://d3fend.mitre.org/mappings/attack-mitigations/",
     ransomwareTiming: "https://cloud.google.com/blog/topics/threat-intelligence/ransomware-attacks-surge-rely-on-public-legitimate-tools",
-    redTeamTiming: "https://cloud.google.com/blog/topics/threat-intelligence/m-trends-2024"
+    redTeamTiming: "https://cloud.google.com/blog/topics/threat-intelligence/m-trends-2024",
+    ransomwarePayment: "https://www.chainalysis.com/blog/crypto-crime-ransomware-victim-extortion-2025/"
   };
   // Each defensive pairing below is an ATT&CK mitigation plus a D3FEND technique
   // listed in MITRE's mitigation bridge. It is not a direct 1:1 ATT&CK↔D3FEND edge.
@@ -62,6 +63,16 @@
     {id:"web-database",name:"Public-app exploit → database theft",surface:"web",goal:"data",steps:["web","execution","database","exfil"],resource:[{name:"Exploit listing",amount:27500,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]},
     {id:"web-double",name:"Public-app exploit → data theft and ransomware",surface:"web",goal:"double",steps:["web","execution","remote","local","exfil","recovery","encrypt","theft"],resource:[{name:"Exploit listing",amount:27500,source:"PT median"},{name:"Ransomware tooling",amount:1000,source:"PT median"},{name:"Infrastructure",amount:8,source:"PT median"}]}
   ];
+  // Planning windows, not measured path-specific averages or probability bounds.
+  // The ransomware objective anchor is Mandiant's six-day observed median;
+  // every other component and all payout delays are explicit PACER assumptions.
+  const TIMING_WINDOWS = {
+    data: {objective:[2,10],collection:[7,30],objectiveName:"data theft",collectionName:"data sale"},
+    ip: {objective:[2,10],collection:[14,90],objectiveName:"repository theft",collectionName:"buyer/payment"},
+    cash: {objective:[1,14],collection:[0,3],objectiveName:"payment diversion",collectionName:"transfer/collection"},
+    ransom: {objective:[6,6],collection:[3,14],objectiveName:"ransomware deployment",collectionName:"negotiation/payment"},
+    double: {objective:[6,6],collection:[7,21],objectiveName:"theft and ransomware deployment",collectionName:"negotiation/payment"}
+  };
   function clamp(n,lo,hi) { return Math.max(lo,Math.min(hi,Number(n)||0)); }
   function onePath(template, input, additions) {
     const selected = new Set([...(input.defendProfile?.techniqueIds||[]),...additions]);
@@ -88,10 +99,13 @@
     const collectionFee = expectedRevenue*(template.goal==="ransom"?.25:template.goal==="double"?.18:.10);
     const costs = {upfront,labor,collectionFee};
     const totalCost = upfront+labor+collectionFee;
-    // These are external reference cohorts, not per-path predictions or summed technique times.
-    const timing=(template.goal==="ransom"||template.goal==="double")
-      ?{label:"6 days",kind:"observed median",from:"initial access",to:"ransomware deployment",year:2023,source:SOURCES.ransomwareTiming,payoutTimeIncluded:false}
-      :{label:"5–7 days",kind:"red-team reference",from:"initial access",to:"red-team objective",year:2024,source:SOURCES.redTeamTiming,payoutTimeIncluded:false};
+    const window=TIMING_WINDOWS[template.goal];
+    const timing={label:`${window.objective[0]+window.collection[0]}–${window.objective[1]+window.collection[1]} days`,
+      kind:"illustrative access-to-payout window",from:"initial access",to:"attacker payout, if collected",
+      objectiveDays:window.objective,collectionDays:window.collection,objectiveName:window.objectiveName,
+      collectionName:window.collectionName,objectiveEvidence:["ransom","double"].includes(template.goal)?"Mandiant 2023 median":"PACER assumption",
+      collectionEvidence:"PACER assumption",source:["ransom","double"].includes(template.goal)?SOURCES.ransomwareTiming:SOURCES.redTeamTiming,
+      payoutTimeIncluded:true};
     return {...template,steps,timing,probability:reach,payout,expectedRevenue,costs,totalCost,profit:expectedRevenue-totalCost,
       profitable:expectedRevenue>totalCost};
   }
