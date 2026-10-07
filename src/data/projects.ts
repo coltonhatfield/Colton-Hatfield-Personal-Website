@@ -63,14 +63,14 @@ Beyond just presenting information, the portfolio itself is a testament to my **
 
 export const projects: Project[] = [
   {
-    id: 'pacer-scenario-lab',
-    title: 'PACER Scenario Lab',
+    id: 'trace-scenario-lab',
+    title: 'TRACE Scenario Lab',
     year: '2026',
     description: 'A browser-only scenario lab that ranks curated MITRE ATT&CK paths by expected attacker return against an uploaded D3FEND profile, then highlights the controls with the largest modeled impact.',
     longDescription: `
 ### Overview
 
-PACER is an assumption-driven scenario model for financially motivated cyberattacks. It compares 16 curated ATT&CK paths against a company's D3FEND profile and ranks the three highest positive-return scenarios.
+TRACE is an assumption-driven scenario model for financially motivated cyberattacks. It compares 16 curated ATT&CK paths against a company's D3FEND profile and ranks the three highest positive-return scenarios.
 
 The calculator estimates attacker costs, path continuation, and potential payout. It also tests proposed defensive techniques one at a time to show which most reduce the best remaining attacker opportunity. Results are deterministic scenario estimates, not measured breach probabilities.
 
@@ -86,12 +86,12 @@ The calculator estimates attacker costs, path continuation, and potential payout
 
 ### Use the Tool
 
-👉 **[Open the PACER Scenario Lab](/pacer/)**
+👉 **[Open the TRACE Scenario Lab](/trace/)**
 
 The current version is a decision-support scenario model, not a validated organization-specific prediction system.
 `,
     tags: ['Cybersecurity', 'Risk Modeling', 'MITRE ATT&CK', 'D3FEND', 'Research'],
-    link: '/pacer/'
+    link: '/trace/'
   },
   {
     id: 'public-honeypot',

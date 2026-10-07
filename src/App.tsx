@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -42,6 +42,7 @@ export default function App() {
             <Suspense fallback={<div className="flex justify-center items-center py-20 text-[#F0B800]">Loading...</div>}>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/project/pacer-scenario-lab" element={<Navigate to="/project/trace-scenario-lab" replace />} />
                 <Route path="/project/:id" element={<ProjectDetail />} />
                 <Route path="/malware-analysis/bendi" element={<MalwareAnalysis />} />
               </Routes>

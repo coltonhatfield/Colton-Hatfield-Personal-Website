@@ -1,4 +1,4 @@
-# PACER validation and sample comparison
+# TRACE validation and sample comparison
 
 Model 2026.09.6. Deterministic reproduction of the revenue inputs supplied in the request: $115,000 ransom, $10,000 cash, 10,000 records, $30,000 IP, $10,000 other. Gross proxy value remains $235,000.
 
