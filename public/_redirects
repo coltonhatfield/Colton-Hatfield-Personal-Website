@@ -1,1 +1,5 @@
+/pacer /trace/ 301
+/pacer/ /trace/ 301
+/pacer/* /trace/:splat 301
+/project/pacer-scenario-lab /project/trace-scenario-lab 301
 /* /index.html 200

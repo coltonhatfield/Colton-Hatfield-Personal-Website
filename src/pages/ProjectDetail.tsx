@@ -61,6 +61,9 @@ export default function ProjectDetail() {
             <Markdown
               components={{
                 a: ({ node, ...props }) => {
+                  if (props.href?.startsWith('/trace/')) {
+                    return <a {...props} />;
+                  }
                   if (props.href?.startsWith('/')) {
                     return <Link to={props.href} {...(props as any)} />;
                   }

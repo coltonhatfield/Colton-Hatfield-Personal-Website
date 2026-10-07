@@ -1,4 +1,4 @@
-# PACER model card — 2026.09.6
+# TRACE model card — 2026.09.6
 
 This release corrects accounting and defensive-profile interpretation without adding input fields or changing the visual design. It is a deterministic, offline scenario model, **not a validated company-specific forecast**. Changes improve internal validity; predictive accuracy cannot be established from three illustrative profiles without observed attack outcomes.
 
@@ -6,7 +6,7 @@ This release corrects accounting and defensive-profile interpretation without ad
 
 Sources checked September 2026:
 
-| Source | Observation | How PACER uses it / limitation |
+| Source | Observation | How TRACE uses it / limitation |
 |---|---|---|
 | [Sophos State of Ransomware 2026](https://www.sophos.com/en-us/blog/sophos-state-of-ransomware-2026) | 56% encryption among surveyed ransomware victims; 48% of encrypted victims paid | Impact reference and payment reference. Neither measures all attacks, an undefended company, or causal control efficacy. |
 | [MITRE ontology](https://d3fend.mitre.org/resources/ontology/) and [FAQ](https://d3fend.mitre.org/faq/) | Technique hierarchy and tactics; no effectiveness estimates | Official technique classification, never effectiveness scores. |
