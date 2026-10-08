@@ -16,12 +16,28 @@
 
   <main id="top">
     <section class="intro" aria-labelledby="pageTitle">
-      <div><p class="eyebrow">Threat Returns and Attack Cost Explorer</p><h1 id="pageTitle">Which attack paths still pay?</h1><p>Explore the example company immediately, or upload your own MITRE D3FEND profile. TRACE compares curated ATT&amp;CK paths, estimates their attacker return, and shows which defensive changes most reduce the best remaining opportunity.</p></div>
+      <div><p class="eyebrow">Threat Returns and Attack Cost Explorer</p><h1 id="pageTitle">Which attack paths still pay?</h1><p>Choose a company size and MITRE D3FEND defense portfolio, or upload your own profile. TRACE compares curated ATT&amp;CK paths, estimates their attacker return, and shows how different defenses change the opportunity.</p></div>
       <div class="model-stamp"><span>MODEL</span><strong id="modelVersion">—</strong><small>deterministic · local only</small></div>
     </section>
 
     <div class="truth-strip" role="note"><span class="status-dot" aria-hidden="true"></span><p><strong>Anonymous and local.</strong> TRACE performs every calculation in this browser. Your inputs and D3FEND file are not uploaded, stored, shared, or transmitted.</p></div>
     <p class="desktop-advice" role="note">For the best experience, use TRACE on a desktop.</p>
+
+    <section class="scenario-picker" aria-labelledby="scenarioTitle">
+      <div><p class="eyebrow">Explore company scenarios</p><h2 id="scenarioTitle">Company size × defense portfolio</h2><p>Change either option to recalculate immediately. Size sets editable revenue estimates; defense sets deployed techniques and coverage independently.</p></div>
+      <div class="scenario-selects">
+        <label for="companySize">Company size<select id="companySize"><option value="small">Small company</option><option value="medium" selected>Mid-size company</option><option value="large">Large company</option><option value="custom" disabled hidden>Custom revenue inputs</option></select></label>
+        <label for="defensePortfolio">Defense portfolio<select id="defensePortfolio"><option value="poor">Poorly defended</option><option value="moderate" selected>Moderately defended</option><option value="high">Highly defended</option><option value="custom" disabled hidden>Custom / uploaded defenses</option></select></label>
+      </div>
+      <p id="scenarioSummary" class="scenario-summary" role="status" aria-live="polite"></p>
+      <details class="scenario-assumptions"><summary>View preset values, defenses and sources</summary>
+        <p>These are illustrative company cohorts, not official size definitions. Annual business revenue provides context; only the editable amounts below enter attacker payout calculations.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Company preset values"><table class="scenario-table"><caption>Revenue inputs in USD · all preset values are estimates</caption><thead><tr><th scope="col">Input</th><th scope="col">Small</th><th scope="col">Mid-size</th><th scope="col">Large</th></tr></thead><tbody id="presetValues"></tbody></table></div>
+        <p>Ransom estimates are informed by <a href="https://www.sophos.com/en-us/press/press-releases/2025/06/nearly-half-companies-opt-pay-ransom-sophos-report-finds" target="_blank" rel="noreferrer">Sophos 2025 revenue-cohort demand data</a>: median demands below $350k for companies with revenue up to $250M, and $5M above $1B. Demands are not payments. TRACE uses estimated payable amounts of $100k / $250k / $2M; these are not observed medians. <a href="https://www.sophos.com/en-us/blog/sophos-state-of-ransomware-2026" target="_blank" rel="noreferrer">Sophos 2026</a> reports a $769k overall median payment and 48% payment among encrypted victims; neither establishes a company's ability to pay. Cash, records and IP are scale-based assumptions, not survey averages. Adjust them for your industry and accessible assets.</p>
+        <div id="portfolioDefinitions" class="portfolio-definitions"></div>
+        <p>Control choices draw on <a href="https://www.cisa.gov/cybersecurity-performance-goals" target="_blank" rel="noreferrer">CISA's Cybersecurity Performance Goals</a> and <a href="https://d3fend.mitre.org/mappings/attack-mitigations/" target="_blank" rel="noreferrer">MITRE's mitigation bridge</a>. The 60% / 75% / 90% coverage settings and control effects are assumptions, not measured efficacy. Password policy is included for realism but has no separate credit in this path library. Size never automatically changes defense strength.</p>
+      </details>
+    </section>
 
     <section class="context-stats" aria-label="Threat context">
       <details class="context-stat"><summary class="stat-main"><strong>88%</strong><span class="stat-copy"><span>Confirmed breaches financially motivated</span><small>View industry breakdown ↗</small></span></summary><div class="industry-grid"><div><b>Financial &amp; insurance</b><span>98% financial</span></div><div><b>Healthcare</b><span>99% financial</span></div><div><b>Manufacturing</b><span>87% financial</span></div><div><b>Public administration</b><span>69% financial · 33% espionage</span></div><div><b>Utilities</b><span>36% financial · 71% espionage</span></div></div><p>Motives can overlap, so percentages need not sum to 100%. These are descriptive breach statistics, not a multiplier in the ROI model. <a href="https://www.verizon.com/business/resources/T343/reports/2026-dbir-data-breach-investigations-report.pdf" target="_blank" rel="noreferrer">Verizon 2026 DBIR ↗</a></p></details>
@@ -35,15 +51,15 @@
           <fieldset>
             <legend>Attacker revenue</legend>
             <p class="field-help">Enter realistic maximum amounts available from one successful attack. TRACE does not treat defender harm or recovery expense as attacker revenue.</p>
-            <label>Ransom the company would realistically pay<span class="money-input"><span>$</span><input id="ransom" type="number" value="115000" min="0" max="100000000000" step="1000"></span></label>
-            <label>Accessible cash or cash-equivalent funds<span class="money-input"><span>$</span><input id="cashTheft" type="number" value="0" min="0" max="100000000000" step="1000"></span></label>
-            <label>Customer records an attacker could exfiltrate<input id="customerRecords" type="number" value="10000" min="0" max="10000000000" step="100"><small class="input-note">Uses a $7 account-price proxy per record; expected proceeds also allow for incomplete sale and collection. Generic customer records may be worth much less.</small></label>
-            <label>Intellectual property or confidential information<span class="money-input"><span>$</span><input id="intellectualProperty" type="number" value="0" min="0" max="100000000000" step="1000"></span></label>
+            <label>Ransom the company would realistically pay<span class="money-input"><span>$</span><input id="ransom" type="number" value="250000" min="0" max="100000000000" step="1000"></span></label>
+            <label>Accessible cash or cash-equivalent funds<span class="money-input"><span>$</span><input id="cashTheft" type="number" value="100000" min="0" max="100000000000" step="1000"></span></label>
+            <label>Customer records an attacker could exfiltrate<input id="customerRecords" type="number" value="100000" min="0" max="10000000000" step="100"><small class="input-note">Uses a $7 account-price proxy per record; expected proceeds also allow for incomplete sale and collection. Generic customer records may be worth much less.</small></label>
+            <label>Intellectual property or confidential information<span class="money-input"><span>$</span><input id="intellectualProperty" type="number" value="100000" min="0" max="100000000000" step="1000"></span></label>
             <label>Other monetizable value<span class="money-input"><span>$</span><input id="otherRevenue" type="number" value="0" min="0" max="100000000000" step="1000"></span></label>
           </fieldset>
           <fieldset>
             <div class="legend-row"><legend>Defensive posture</legend><span class="assumption-tag">FULL D3FEND PROFILE</span></div>
-            <p class="field-help">Include only defenses you have actually deployed. TRACE reads checked layers and techniques from the exported profile.</p>
+            <p class="field-help">The selected portfolio supplies illustrative deployed controls. To assess your own organization, upload a profile containing only defenses you have actually deployed.</p>
             <ol class="profile-steps">
               <li>Open <a href="https://d3fend.mitre.org/profile/" target="_blank" rel="noreferrer">MITRE D3FEND Profile Studio</a> and select or create your profile.</li>
               <li>Select a layer, then hold <kbd>Ctrl</kbd> and click a defensive technique to select it. Repeat for the controls in that layer.</li>
@@ -63,11 +79,12 @@
         <div class="results-head"><div><span class="step">02</span><h2>Profitable attack paths</h2></div><div class="confidence"><span>Assessment state</span><strong id="assessmentState">Loading example company</strong></div></div>
         <div id="emptyResult" class="empty-result"><span class="empty-icon">↥</span><h3>Upload a D3FEND profile</h3><p>TRACE will rank modeled ATT&amp;CK paths by expected attacker profit, then recalculate the best opportunity after each proposed control.</p></div>
         <div id="calculatedResult" hidden>
-          <div id="exampleBanner" class="example-banner" role="note"><span class="example-icon" aria-hidden="true">◈</span><div><strong>Example company</strong><p>Sample results are shown. Upload your D3FEND profile to assess your organization.</p></div></div>
+          <div id="exampleBanner" class="example-banner" role="note"><span class="example-icon" aria-hidden="true">◈</span><div><strong>Illustrative company scenario</strong><p>Preset values are estimates. Edit the inputs or upload your D3FEND profile to assess your organization.</p></div></div>
+          <article class="portfolio-comparison"><h3>How defenses change each attack</h3><p>Same current revenue inputs and attack surfaces across all three portfolios. Each uses its preset coverage (60% / 75% / 90%); custom coverage and uploaded profiles appear in the assessment below. Each cell shows expected attacker profit and modeled path completion.</p><div id="comparisonSummary" class="comparison-summary"></div><details open><summary>Compare every attack path</summary><div class="table-scroll" tabindex="0" role="region" aria-label="Attack profit by defense portfolio"><table class="scenario-table"><caption>Illustrative defense comparison · negative profit means unprofitable in this model</caption><thead><tr><th scope="col">Attack path</th><th scope="col" data-portfolio="poor">Poorly defended</th><th scope="col" data-portfolio="moderate">Moderately defended</th><th scope="col" data-portfolio="high">Highly defended</th></tr></thead><tbody id="comparisonRows"></tbody></table></div></details></article>
           <article class="path-summary"><div><span class="eyebrow">Modeled outcome</span><h2 id="pathHeadline">—</h2><p id="pathSubhead">—</p></div><div><small>Best remaining attacker return</small><strong id="bestProfit">—</strong><small>expected payout less expected cost</small></div></article>
           <div class="path-actions"><span id="pathCount">—</span><button id="downloadJson" type="button">Download paths JSON</button><button id="downloadCsv" type="button">Download paths CSV</button></div>
           <div id="pathList" class="path-list"></div>
-          <article class="control-section"><div class="card-title"><div><span class="step">03</span><h3>Controls with the largest return reduction</h3></div><span>one-control-at-a-time counterfactual</span></div><p>Each candidate is added separately to the uploaded profile. The reduction is the change in the best remaining path's expected profit—not a predicted loss avoided or a vendor efficacy claim.</p><div id="controlList" class="control-list"></div></article>
+          <article class="control-section"><div class="card-title"><div><span class="step">03</span><h3>Controls with the largest return reduction</h3></div><span>one-control-at-a-time counterfactual</span></div><p>Each candidate is added separately to the active profile. The reduction is the change in the best remaining path's expected profit—not a predicted loss avoided or a vendor efficacy claim.</p><div id="controlList" class="control-list"></div></article>
           <article class="model-note"><h3>How to read this assessment</h3><p>TRACE compares 16 curated plausible chains, not an exhaustive search or proof that an attacker can reach the target. “Feasible” means the chosen attack surface is in scope; account privileges, vulnerable software, asset placement, and actual response time still require validation. A purchased-access listing is not guaranteed to exist for this company or grant access to every asset shown in a path. ATT&amp;CK mitigations connect to D3FEND techniques through MITRE's many-to-many bridge; a checked D3FEND box does not establish an independently measured probability of stopping an attack. Even a profile with every mapped defense selected can leave modeled paths profitable: controls reduce their estimated reach but are never treated as perfect blocks.</p><p>"Modeled path completion" is the product of assumed step-continuation chances. A step's percentage means the chance of continuing <em>if the attacker reaches that step</em>, after credited defenses. Neither number is a measured breach rate. Costs use <a href="https://global.ptsecurity.com/en/research/analytics/cybercrime-as-a-service/" target="_blank" rel="noreferrer">Positive Technologies' 2026 listing medians and worked example</a> where available. The $150 phishing panel is their one-month example; $250 per reached stage labor, 92% unopposed stage pass, defense effects, collection rates and fees are scenario assumptions. Listing prices can be reused across targets and are not a price for each ATT&amp;CK technique. Code-repository theft uses only the entered intellectual-property value; its 20% realization is an assumption. The 88% breach-motive figure does not enter the calculation.</p></article>
         </div>
       </section>
@@ -103,6 +120,7 @@
   <script src="d3fend-catalog.js"></script>
   <script src="model.js"></script>
   <script src="path-model.js"></script>
+  <script src="scenarios.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
