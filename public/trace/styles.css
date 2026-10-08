@@ -35,6 +35,44 @@ nav { display: flex; align-items: center; gap: 8px; }
 button { border: 0; }
 .text-button { background: transparent; color: #c9d5d4; padding: 10px 12px; }
 .text-button:hover { color: #fff; }
+
+.scenario-picker { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin: 24px 0; }
+.scenario-picker h2 { margin: 0; font-size: 24px; }
+.scenario-picker > div > p:last-child { color: var(--muted); margin: 8px 0 18px; }
+.scenario-selects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.scenario-selects label { display: grid; gap: 7px; font-weight: 700; }
+.scenario-selects select { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); }
+.scenario-summary { color: var(--mint-dark); font-weight: 600; }
+.scenario-assumptions summary, .portfolio-comparison summary { cursor: pointer; font-weight: 650; }
+.scenario-assumptions p { color: var(--muted); font-size: 14px; }
+.scenario-assumptions a, .profile-status a { color: var(--mint-dark); overflow-wrap: anywhere; }
+.portfolio-definitions { display: grid; gap: 12px; }
+.portfolio-definitions section { padding: 14px; border: 1px solid var(--line); border-radius: 8px; }
+.portfolio-definitions h3 { margin: 0; font-size: 16px; }
+.profile-status details { margin-top: 8px; font-size: 12px; }
+.portfolio-comparison { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin: 18px; min-width: 0; }
+.portfolio-comparison h3 { margin: 0; font-size: 21px; }
+.portfolio-comparison > p { color: var(--muted); font-size: 13px; }
+.comparison-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 18px 0; }
+.comparison-summary > div { display: grid; gap: 6px; border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.comparison-summary span { font-weight: 650; font-size: 13px; }
+.comparison-summary strong { font-size: 24px; }
+.comparison-summary small { color: var(--muted); font-size: 11px; }
+.table-scroll { max-width: 100%; overflow-x: auto; margin-top: 12px; }
+.scenario-table { width: 100%; min-width: 580px; border-collapse: collapse; font-size: 13px; }
+.scenario-table caption { text-align: left; color: var(--muted); padding: 0 0 10px; font-size: 12px; }
+.scenario-table th, .scenario-table td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.scenario-table thead th { background: var(--paper); }
+.scenario-table tbody th { font-weight: 600; width: 34%; }
+.scenario-table small { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
+.selected-portfolio, .scenario-table thead .selected-portfolio { background: #e9f8f2; }
+.scenario-table .unprofitable b { color: var(--mint-dark); }
+@media (max-width: 820px) {
+  .scenario-picker { padding: 18px; }
+  .scenario-picker h2 { font-size: 21px; }
+  .scenario-selects, .comparison-summary { grid-template-columns: 1fr; }
+  .portfolio-comparison { padding: 16px; }
+}
 .outline-button { background: transparent; color: #fff; border: 1px solid #496065; border-radius: 9px; padding: 9px 14px; }
 .outline-button:hover { border-color: var(--mint); color: var(--mint); }
 
@@ -56,6 +94,7 @@ h1 { margin-bottom: 12px; font-size: clamp(34px, 4vw, 58px); line-height: 1.02; 
 .status-dot { width: 9px; height: 9px; margin-top: 6px; flex: 0 0 auto; border-radius: 50%; background: var(--mint-dark); box-shadow: 0 0 0 4px rgba(15,143,123,.12); }
 
 .workspace { display: grid; grid-template-columns: minmax(340px, 430px) minmax(0, 1fr); gap: 20px; align-items: start; }
+.workspace > * { min-width: 0; }
 .inputs-panel, .results-panel { background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow); }
 .inputs-panel { position: sticky; top: 16px; }
 .panel-heading, .results-head { min-height: 74px; padding: 20px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
